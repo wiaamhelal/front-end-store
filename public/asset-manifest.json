@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5b3a28b7.css",
+    "main.js": "/static/js/main.23b8d8ac.js",
+    "static/media/like-svgrepo-com (2).svg": "/static/media/like-svgrepo-com (2).3b5f383f77e8b03835db553ca561d09e.svg",
+    "static/media/dislike-svgrepo-com (1).svg": "/static/media/dislike-svgrepo-com (1).5ed7b59ddd25beb84fa2191d1426f5c6.svg",
+    "index.html": "/index.html",
+    "static/media/phone-call-telephone-svgrepo-com.svg": "/static/media/phone-call-telephone-svgrepo-com.d4b10dc5bf141ea6d5dec4ab58a68f5f.svg",
+    "static/media/shopping-card-svgrepo-com (1).svg": "/static/media/shopping-card-svgrepo-com (1).9d33eff93f97da4e3998b1d34d84cff7.svg",
+    "static/media/like-svgrepo-com (3).svg": "/static/media/like-svgrepo-com (3).8d719a17f8a0310c9124fed12284eead.svg",
+    "static/media/dislike-svgrepo-com.svg": "/static/media/dislike-svgrepo-com.832284dcbc944ca94d0a946b280ece11.svg",
+    "static/media/location-sign-svgrepo-com.svg": "/static/media/location-sign-svgrepo-com.a619c9b7d0c81444a3247124d01358c7.svg",
+    "static/media/unhappy-face-2-svgrepo-com.svg": "/static/media/unhappy-face-2-svgrepo-com.2c963b1fac288902dbcd93122a98137a.svg",
+    "static/media/happy-face-2-svgrepo-com.svg": "/static/media/happy-face-2-svgrepo-com.f5a9bbf97de0f0dfccb15299417f8c2f.svg",
+    "static/media/email-svgrepo-com.svg": "/static/media/email-svgrepo-com.a14e8fd5d2bd40a9eef6d6e03c3e2b56.svg",
+    "main.5b3a28b7.css.map": "/static/css/main.5b3a28b7.css.map",
+    "main.23b8d8ac.js.map": "/static/js/main.23b8d8ac.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5b3a28b7.css",
+    "static/js/main.23b8d8ac.js"
+  ]
+}
