@@ -60,7 +60,7 @@ import DiscountList from "./components/DiscountList";
 import DiscountProductAd from "./components/DiscountProductAd";
 import BranchProducts from "./components/BranchProducts";
 import BestSales from "./components/BestSales";
-import Home2 from "./components/Home2";
+import OurComunity from "./components/OurComunity";
 
 export const GetBasketTotal = (basket) => {
   return basket?.reduce((total, current) => {
@@ -523,10 +523,10 @@ function App() {
           }
         />
         <Route
-          path="/home2"
+          path="/our-comunity"
           element={
             <>
-              <Header /> <Home2 />
+              <Header /> <OurComunity />
             </>
           }
         />
