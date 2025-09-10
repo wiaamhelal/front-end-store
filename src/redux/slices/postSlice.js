@@ -107,6 +107,9 @@ const postSlice = createSlice({
     setPostsAd(state, action) {
       state.postsAd = action.payload;
     },
+    deletePostad(state, action) {
+      state.postsAd = state.postsAd.filter((c) => c._id !== action.payload);
+    },
   },
 });
 

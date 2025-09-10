@@ -71,7 +71,7 @@ const DiscountProductAd = () => {
         </div>
         {/* <select
           className="inputs"
-          onChange={(e) => setdiscountMount(e.target.value)}
+          onChange={(e) => setdiscountMount(e.target.value) }
           value={dicountMount}
         >
           <option>range of the discount</option>

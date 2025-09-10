@@ -63,6 +63,7 @@ const Main = styled.div`
 
   & img {
     height: 161px;
+    object-fit: cover;
   }
 `;
 export default Products2;

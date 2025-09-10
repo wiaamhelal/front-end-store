@@ -39,7 +39,7 @@ const Home = () => {
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
   }, []);
-  console.log(filteredItems);
+  console.log(categories);
   return (
     <Main className="text-dark">
       <SecondHeder className="ps-2 d-none d-sm-block">
@@ -236,6 +236,28 @@ const Home = () => {
           ))}
         </BoxesHolder>
       </div>
+      {/* <SerculItems className="my-container mt-4">
+        <h4 className="fw-bold  pt-3 pb-3">
+          Welcome Deals | Pick up where you left off
+        </h4>
+        <div style={{ overflowX: "auto" }}>
+          <div className="posts-container">
+            {categories?.map((item) => (
+              <div>
+                <img
+                  src={
+                    item?.images[1]?.url
+                      ? item?.images[1]?.url
+                      : item?.images[0]?.url
+                  }
+                  alt=""
+                />
+                <h5>{item?.branchTitle}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SerculItems> */}
       <SerculItems className="my-container mt-4">
         <h4 className="fw-bold  pt-3 pb-3">
           Welcome Deals | Pick up where you left off
@@ -292,6 +314,7 @@ const Main = styled.div`
     }
     & img {
       height: 161px;
+      object-fit: cover;
     }
   }
   & .carousel-inner {
@@ -343,6 +366,7 @@ const BoxesHolder = styled.div`
     & img {
       width: 100%;
       height: 150px;
+      object-fit: cover;
     }
   }
 `;

@@ -11,7 +11,9 @@ const UpdatePost = ({ toggle, settoggle, post, id }) => {
   const [description, setdescription] = useState(post?.description);
   const [category, setcategory] = useState(post?.category);
   const [price, setprice] = useState(post?.price);
-  const [dicountMount, setdiscountMount] = useState(post?.oldPrice[1]);
+  const [dicountMount, setdiscountMount] = useState(
+    post?.oldPrice === null ? null : post?.oldPrice[1]
+  );
   const [changePrice, setchangePrice] = useState();
   console.log(categories);
   const updatePost = async (e) => {

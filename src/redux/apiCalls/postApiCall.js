@@ -370,3 +370,20 @@ export function getAllProuctsAdsApi() {
     }
   };
 }
+
+// delete ad
+export function deleteProductAdApi(adId) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.delete(`/api/posts/delete-ad/${adId}`, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token,
+        },
+      });
+      dispatch(postActions.deletePostad(data.adId));
+      toast.success("ad has been deleted");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+}
