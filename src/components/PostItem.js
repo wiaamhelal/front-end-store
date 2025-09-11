@@ -25,7 +25,7 @@ const PostItem = ({ post, username, userId }) => {
       />
       <div class="card-body">
         {" "}
-        <div className="" style={{ height: "48px" }}>
+        <div className="" style={{ height: "48px", marginBottom: "10px" }}>
           <h5 class="card-title">{post?.title?.substring(0, 22)}</h5>
           <div className="d-flex align-itmes-center">
             <h6 class="card-title me-3">{FormatCurrency(post?.price)}</h6>
@@ -38,6 +38,14 @@ const PostItem = ({ post, username, userId }) => {
                   {post?.oldPrice[1]} -%
                 </h6>
               </div>
+            )}
+            {post.premium === true && (
+              <img
+                style={{ transform: "translateY(-3px)", width: "50px" }}
+                src="https://static.vecteezy.com/system/resources/thumbnails/014/396/674/small_2x/label-design-and-pin-png.png"
+                alt=""
+                className="premium-photo"
+              />
             )}
           </div>
         </div>
@@ -58,4 +66,5 @@ const PostItem = ({ post, username, userId }) => {
     </Link>
   );
 };
+
 export default PostItem;

@@ -187,19 +187,28 @@ const Home = () => {
         </h4>
         <div style={{ overflowX: "auto" }}>
           <div className="posts-container">
-            {posts?.map((item) => (
-              <PostItem post={item} key={item?._id} />
-            ))}
+            {posts
+              ?.filter((item) => item?.premium === true)
+              .map((item) => (
+                <PostItem post={item} key={item?._id} />
+              ))}
           </div>
         </div>
       </Premium>
       <Premium className="my-container mt-4">
         <h4 className="fw-bold  pt-3">Welcome Deals | Under AED 99</h4>
         <div style={{ overflowX: "auto" }}>
-          <div className="posts-container">
+          {/* <div className="posts-container">
             {posts?.map((item) => (
               <PostItem post={item} key={item?._id} />
             ))}
+          </div> */}
+          <div className="posts-container">
+            {posts
+              ?.filter((item) => item?.price < 100)
+              .map((item) => (
+                <PostItem post={item} key={item?._id} />
+              ))}
           </div>
         </div>
       </Premium>
@@ -273,6 +282,16 @@ const Home = () => {
           </div>
         </div>
       </SerculItems>
+      <Premium className="my-container mt-4">
+        <h4 className="fw-bold  pt-3">New Products</h4>
+        <div style={{ overflowX: "auto" }}>
+          <div className="posts-container">
+            {posts?.map((item) => (
+              <PostItem post={item} key={item?._id} />
+            ))}
+          </div>
+        </div>
+      </Premium>
       {user ? (
         <Acount className="my-container">
           <span>{user?.email}</span>

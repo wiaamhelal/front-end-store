@@ -9,6 +9,7 @@ import normaDislLike from "../img/dislike-svgrepo-com.svg";
 import swal from "sweetalert";
 import { toast } from "react-toastify";
 import boldStar from "../img/star (1).png";
+import premiumImg from "../img/premium.jpg";
 import {
   deletePostApi,
   fetchAllPosts,
@@ -129,6 +130,7 @@ const ParamsComp = () => {
                 alt=""
                 style={{}}
               />
+
               {/* {user?._id === post?.user._id && (
                 <form>
                   <input
@@ -248,6 +250,11 @@ const ParamsComp = () => {
                 <h5 className="fw-bold m-0 p-0 me-3">
                   {FormatCurrency(post?.price)}
                 </h5>
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/014/396/674/small_2x/label-design-and-pin-png.png"
+                  alt=""
+                  className="premium-photo"
+                />
                 {post?.oldPrice && (
                   <div className="">
                     <h5 className="text-decoration-line-through text-muted me-2">
@@ -600,6 +607,11 @@ const Boxholder = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 20px 0;
+
+  & .premium-photo {
+    transform: translateY(-7px);
+    width: 90px;
+  }
 `;
 
 const BrouseItems = styled.div`

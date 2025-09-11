@@ -27,6 +27,7 @@ const CreatePost = () => {
   const [productDetails, setproductDetails] = useState("");
   const [color, setcolor] = useState("");
   const [colors, setcolors] = useState([]);
+  const [premium, setPremium] = useState(false);
 
   useEffect(() => {
     dispatch(fitchAllCategories());
@@ -39,7 +40,7 @@ const CreatePost = () => {
     setcolors([...colors, color]);
     setcolor("");
   };
-
+  console.log(premium);
   const submitCreatepost = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -52,6 +53,7 @@ const CreatePost = () => {
 
     // Add additional fields
     formData.append("description", desc);
+    formData.append("premium", premium);
     formData.append("title", title);
     formData.append("price", price);
     formData.append("category", selectedOption?.value);
@@ -136,6 +138,18 @@ const CreatePost = () => {
               </span>
             ))}
           </div>
+          <div className="d-flex align-items-center mb-3">
+            <input
+              type="checkbox"
+              id="premium"
+              className="me-2"
+              onChange={() => setPremium(!premium)}
+            />
+            <label htmlFor="premium" className="" style={{ cursor: "pointer" }}>
+              Premium Procuct
+            </label>
+          </div>
+
           <textarea
             onChange={(e) => setdesc(e.target.value)}
             className="inputs"
