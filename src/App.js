@@ -547,7 +547,7 @@ function App() {
 // root.render(<App />);
 
 const Holder = styled.div`
-  // transform: translateY(-40px);
+  overflow-x: hidden;
   background-image: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
   background-size: contain;

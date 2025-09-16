@@ -250,11 +250,14 @@ const ParamsComp = () => {
                 <h5 className="fw-bold m-0 p-0 me-3">
                   {FormatCurrency(post?.price)}
                 </h5>
-                <img
-                  src="https://static.vecteezy.com/system/resources/thumbnails/014/396/674/small_2x/label-design-and-pin-png.png"
-                  alt=""
-                  className="premium-photo"
-                />
+                {post?.premium && (
+                  <img
+                    src="https://static.vecteezy.com/system/resources/thumbnails/014/396/674/small_2x/label-design-and-pin-png.png"
+                    alt=""
+                    className="premium-photo"
+                  />
+                )}
+
                 {post?.oldPrice && (
                   <div className="">
                     <h5 className="text-decoration-line-through text-muted me-2">

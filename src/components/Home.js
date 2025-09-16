@@ -39,7 +39,8 @@ const Home = () => {
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
   }, []);
-  console.log(categories);
+  console.log(filteredItems);
+
   return (
     <Main className="text-dark">
       <SecondHeder className="ps-2 d-none d-sm-block">
@@ -189,6 +190,7 @@ const Home = () => {
           <div className="posts-container">
             {posts
               ?.filter((item) => item?.premium === true)
+              .slice(0, 20)
               .map((item) => (
                 <PostItem post={item} key={item?._id} />
               ))}
@@ -206,6 +208,7 @@ const Home = () => {
           <div className="posts-container">
             {posts
               ?.filter((item) => item?.price < 100)
+              .slice(0, 20)
               .map((item) => (
                 <PostItem post={item} key={item?._id} />
               ))}
@@ -286,9 +289,15 @@ const Home = () => {
         <h4 className="fw-bold  pt-3">New Products</h4>
         <div style={{ overflowX: "auto" }}>
           <div className="posts-container">
-            {posts?.map((item) => (
-              <PostItem post={item} key={item?._id} />
-            ))}
+            {posts
+              ?.filter(
+                (item, index, self) =>
+                  index === self.findIndex((obj) => obj.title === item.title)
+              )
+              .slice(0, 20)
+              .map((item) => (
+                <PostItem post={item} key={item?._id} />
+              ))}
           </div>
         </div>
       </Premium>
@@ -363,8 +372,10 @@ const SecondHeder = styled.div`
   }
 
   overflow-x: auto;
-  transform: translate(-11px, 54px);
+  transform: translate(-11px, 56px);
   width: 107%;
+  z-index: 99999;
+  position: relative;
 `;
 
 const BoxesHolder = styled.div`
