@@ -4,58 +4,158 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import { fetchSinglePost, updatePostText } from "../redux/apiCalls/postApiCall";
 
-const UpdatePost = ({ toggle, settoggle, post, id }) => {
+const UpdatePost = ({ toggle, settoggle, id }) => {
   const dispatch = useDispatch();
+  const { post } = useSelector((state) => state.post);
+  // const fitshPosts = async () => {
+  //   await dispatch(fetchSinglePost(id));
+  // };
+  // fitshPosts();
+
+  console.log(id);
   const { categories } = useSelector((state) => state.category);
-  const [title, settitle] = useState(post?.title);
-  const [description, setdescription] = useState(post?.description);
-  const [category, setcategory] = useState(post?.category);
-  const [price, setprice] = useState(post?.price);
-  const [dicountMount, setdiscountMount] = useState(
-    post?.oldPrice === null ? null : post?.oldPrice[1]
-  );
+  const [title, settitle] = useState();
+  const [description, setdescription] = useState();
+  const [category, setcategory] = useState();
+  const [price, setprice] = useState();
+  const [dicountMount, setdiscountMount] = useState();
+
+  //post?.oldPrice === null ? null : post?.oldPrice[1]
   const [changePrice, setchangePrice] = useState();
   console.log(categories);
+
+  // const updatePost = async (e) => {
+  //   e.preventDefault();
+  //   let newPrice = price;
+
+  //   const discount = parseFloat(dicountMount); // تأكد من أنه رقم
+
+  //   if (!isNaN(discount) && discount > 0 && discount <= 100) {
+  //     newPrice = price - (price * discount) / 100;
+  //   }
+
+  //   if (dicountMount && post?.premium) {
+  //     return toast.error("no discout for premium products");
+  //   }
+
+  //   if (dicountMount >= 5) {
+  //     await dispatch(
+  //       updatePostText(
+  //         {
+  //           title,
+  //           description,
+  //           category,
+  //           price: newPrice,
+  //           oldPrice: [post?.price, discount],
+  //         },
+  //         post._id
+  //       )
+  //     );
+  //   } else {
+  //     await dispatch(
+  //       updatePostText(
+  //         {
+  //           title,
+  //           description,
+  //           category,
+  //           price: changePrice,
+  //           oldPrice: [],
+  //         },
+  //         post._id
+  //       )
+  //     );
+  //   }
+  //   settoggle(false);
+  //   window.location.reload();
+  // };
+
   const updatePost = async (e) => {
     e.preventDefault();
-    let newPrice = price;
 
-    const discount = parseFloat(dicountMount); // تأكد من أنه رقم
+    try {
+      // helpers
+      const isNonEmpty = (v) =>
+        typeof v === "string"
+          ? v.trim().length > 0
+          : v !== undefined && v !== null;
 
-    if (!isNaN(discount) && discount > 0 && discount <= 100) {
-      newPrice = price - (price * discount) / 100;
+      // الحقول المدخلة من الفورم (قد تكون فارغة)
+      const newTitle = isNonEmpty(title) ? title.trim() : undefined;
+      const newDescription = isNonEmpty(description)
+        ? description.trim()
+        : undefined;
+      const newCategory = isNonEmpty(category) ? category.trim() : undefined;
+
+      // السعر: إذا المستخدم أدخل سعر جديد نستخدمه، وإلا نستخدم السعر الحالي أو متغير changePrice إذا تستخدمه
+      const priceProvided =
+        price !== "" &&
+        price !== undefined &&
+        price !== null &&
+        !isNaN(Number(price));
+      const basePrice = priceProvided
+        ? Number(price)
+        : typeof changePrice !== "undefined" && changePrice !== null
+        ? Number(changePrice)
+        : Number(post?.price);
+
+      // خصم
+      const discount = parseFloat(dicountMount);
+      const hasValidDiscount =
+        !isNaN(discount) && discount >= 5 && discount <= 100;
+
+      // منع الخصم على المنتجات البريميوم
+      if (hasValidDiscount && post?.premium) {
+        toast.error("لا يمكن وضع خصم على منتجات الـ premium");
+        return;
+      }
+
+      // بناء سعر الحفظ و oldPrice بحسب حالة الخصم أو تغيير السعر
+      let priceToSave;
+      let oldPriceForPayload;
+      const priceChangedByUser =
+        priceProvided && Number(post?.price) !== Number(price);
+
+      if (hasValidDiscount) {
+        // مثال حسابي: basePrice = 100, discount = 10 => priceToSave = 100 - (100*10)/100 = 90
+        priceToSave = +(basePrice - (basePrice * discount) / 100).toFixed(2);
+        // نحفظ السعر الأصلي + نسبة الخصم
+        oldPriceForPayload = [Number(post?.price ?? basePrice), discount];
+      } else if (priceChangedByUser) {
+        priceToSave = basePrice;
+        oldPriceForPayload = [];
+      }
+
+      // جهّز البايلود — فقط الحقول اللي تغيّرت
+      const payload = {};
+      if (newTitle !== undefined && newTitle !== post?.title)
+        payload.title = newTitle;
+      if (newDescription !== undefined && newDescription !== post?.description)
+        payload.description = newDescription;
+      if (newCategory !== undefined && newCategory !== post?.category)
+        payload.category = newCategory;
+      if (typeof priceToSave !== "undefined") {
+        payload.price = priceToSave;
+        payload.oldPrice = oldPriceForPayload;
+      }
+
+      // لو ما فيه تغييرات حقيقية
+      if (Object.keys(payload).length === 0) {
+        toast.info("لا يوجد تغييرات لحفظها");
+        settoggle(false);
+        return;
+      }
+
+      // نفّذ التحديث
+      await dispatch(updatePostText(payload, post._id));
+      toast.success("Product has been updated");
+
+      // بدلاً من عمل window.location.reload() ننفّذ fetch للبوست المحدث أو نحدّث الستور
+      await dispatch(fetchSinglePost(post._id)); // إن كان متوفر عندك ليعيد جلب البوست
+      settoggle(false);
+    } catch (err) {
+      console.error(err);
+      toast.error("حصل خطأ أثناء التحديث");
     }
-
-    if (dicountMount >= 5) {
-      await dispatch(
-        updatePostText(
-          {
-            title,
-            description,
-            category,
-            price: newPrice,
-            oldPrice: [post?.price, discount],
-          },
-          post._id
-        )
-      );
-    } else {
-      await dispatch(
-        updatePostText(
-          {
-            title,
-            description,
-            category,
-            price: changePrice,
-            oldPrice: [],
-          },
-          post._id
-        )
-      );
-    }
-
-    settoggle(false);
-    window.location.reload();
   };
 
   const discountAmount = [0, 5, 10, 15, 20, 25, 50, 75];
@@ -98,6 +198,7 @@ const UpdatePost = ({ toggle, settoggle, post, id }) => {
                   onChange={(e) => setcategory(e.target.value)}
                   value={category}
                 >
+                  <option value={null}>Change Category</option>
                   {categories.map((item) => (
                     <option value={item?.branchTitle}>
                       {item?.branchTitle}
@@ -177,3 +278,58 @@ const Main = styled.div`
   }
 `;
 export default UpdatePost;
+
+// const updatePost = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     // نجهز الـ payload (الحقول التي تغيرت فقط)
+//     const payload = {};
+
+//     if (title && title !== post?.title) {
+//       payload.title = title.trim();
+//     }
+//     if (description && description !== post?.description) {
+//       payload.description = description.trim();
+//     }
+//     if (category && category !== post?.category) {
+//       payload.category = category.trim();
+//     }
+
+//     // السعر والخصم
+//     const discount = parseFloat(dicountMount);
+//     const hasValidDiscount = !isNaN(discount) && discount >= 5 && discount <= 100;
+
+//     if (hasValidDiscount && post?.premium) {
+//       return toast.error("لا يمكن وضع خصم على منتجات الـ premium");
+//     }
+
+//     if (hasValidDiscount) {
+//       const newPrice = price - (price * discount) / 100;
+//       payload.price = newPrice;
+//       payload.oldPrice = [post?.price, discount];
+//     } else if (price && price !== post?.price) {
+//       payload.price = price;
+//       payload.oldPrice = [];
+//     }
+
+//     // لو ما فيه تغييرات
+//     if (Object.keys(payload).length === 0) {
+//       toast.info("لا يوجد تغييرات لحفظها");
+//       settoggle(false);
+//       return;
+//     }
+
+//     // إرسال التحديث
+//     await dispatch(updatePostText(payload, post._id));
+//     toast.success("تم التحديث بنجاح");
+
+//     // تحديث الواجهة بدون reload
+//     settoggle(false);
+//     await dispatch(fetchSinglePost(post._id));
+
+//   } catch (err) {
+//     console.error(err);
+//     toast.error("حدث خطأ أثناء التحديث");
+//   }
+// };

@@ -30,6 +30,11 @@ import FormatCurrency from "./FormatCurrency";
 import PostItem from "./PostItem";
 
 const ParamsComp = () => {
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(fetchSinglePost(id));
+  }, [id]);
+  console.log(id);
   const dispatch = useDispatch();
   const { user } = useSelector((user) => user.auth);
   const { post, basket, posts, maxPosts } = useSelector((state) => state.post);
@@ -93,10 +98,6 @@ const ParamsComp = () => {
   useEffect(() => {
     localStorage.setItem("basket", JSON.stringify(basket));
   }, [basket]);
-  const { id } = useParams();
-  useEffect(() => {
-    dispatch(fetchSinglePost(id));
-  }, [id]);
 
   let rate =
     (post?.likes?.length / (post?.dislikes?.length + post?.likes?.length)) * 5;
@@ -203,28 +204,74 @@ const ParamsComp = () => {
                 {post?.title}
               </h2>
               <span className="text-color">{post?.description}</span>
+              <div>
+                <p className="mt-2 text-primary mb-0">Visit the HP Store</p>
+                <div className="d-flex align-items-center">
+                  <FirstStats>
+                    {" "}
+                    <div
+                      className=""
+                      style={{ width: "160px", marginBottom: " 5px" }}
+                    >
+                      {" "}
+                      {Array(Math.round(rate) || 0)
+                        .fill()
+                        .map((_, i) => (
+                          <img src={boldStar} alt="star" className="star-img" />
+                        ))}
+                    </div>
+                  </FirstStats>
+                  <span className="text-primary">356 ratings</span>
+                </div>
+                <span
+                  className="btn btn-dark btn-sm"
+                  style={{ fontSize: "12px", padding: " 0px 5px" }}
+                >
+                  recommended
+                </span>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    borderBottom: "1px solid black",
+                    paddingBottom: "10px",
+                  }}
+                  className="mt-2 fw-bold"
+                >
+                  100+ bought in past month
+                </p>
+              </div>
             </div>
           </Head>
           <Colors>
-            {/* {post?.colors?.map((color, id) => (
-              <span className="me-3">
-                <input type="checkbox" id={id} value={color} />
-                <label className="fw-bold fs-4" htmlFor={id}>
-                  {color}
-                </label>
-              </span>
-            ))} */}
-
+            {/* {post?.colors &&
+              post?.colors?.map((color, id) => (
+                <span className="me-3">
+                  <input type="checkbox" id={id} value={color} />
+                  <label className="fw-bold fs-4" htmlFor={id}>
+                    {color}
+                  </label>
+                </span>
+              ))} */}
+            <div className="mt-3">
+              {otherColorProduct.map((item) => (
+                <img
+                  src={item?.images[0]?.url}
+                  alt=""
+                  className="product-color-img"
+                  onClick={() => navicate(`/posts/details/${item?._id}`)}
+                />
+              ))}
+            </div>
             <div className="d-flex align-items-center mt-4">
               {post?.colors?.length > 0 && (
                 <>
-                  <h4 className="fw-bold me-3">Select the color:</h4>
+                  <h4 className="fw-bold me-3">Select the size:</h4>
                   <div className="d-flex align-items-center">
                     <select
                       className="inputs m-0 me-3"
                       onChange={(e) => setOrderColor(e.target.value)}
                     >
-                      <option value="none">default color</option>
+                      {/* <option value="none">default size</option> */}
                       {post?.colors?.map((color, id) => (
                         <option value={color}>{color}</option>
                       ))}
@@ -232,16 +279,6 @@ const ParamsComp = () => {
                   </div>
                 </>
               )}
-              <div>
-                {otherColorProduct.map((item) => (
-                  <img
-                    src={item?.images[0]?.url}
-                    alt=""
-                    className="product-color-img"
-                    onClick={() => navicate(`/posts/details/${item?._id}`)}
-                  />
-                ))}
-              </div>
             </div>
           </Colors>
           <Boxholder className="row gap-4">
@@ -269,20 +306,6 @@ const ParamsComp = () => {
                   </div>
                 )}
               </div>
-              <FirstStats>
-                {" "}
-                <div
-                  className=""
-                  style={{ width: "160px", marginBottom: " 5px" }}
-                >
-                  {" "}
-                  {Array(Math.round(rate) || 0)
-                    .fill()
-                    .map((_, i) => (
-                      <img src={boldStar} alt="star" className="star-img" />
-                    ))}
-                </div>
-              </FirstStats>
             </div>
             <div className="col-12 col-sm-6 col-md-3">
               <div class="btn-group">
@@ -376,7 +399,10 @@ const ParamsComp = () => {
             <div className="mt-3 mb-4 ">
               <span
                 className="btn btn-success me-3 btn-sm rounded-pill shadow"
-                onClick={() => settoggle(true)}
+                onClick={() => {
+                  // dispatch(fetchSinglePost(id));
+                  settoggle(true);
+                }}
               >
                 update the product
               </span>
@@ -641,8 +667,8 @@ const FirstStats = styled.data`
   width: 160px;
   position: relative;
   & .star-img {
-    width: 22px;
-    margin-right: 10px;
+    width: 17px;
+    margin-right: 5px;
 }
   }
 `;

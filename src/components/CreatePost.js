@@ -77,7 +77,34 @@ const CreatePost = () => {
         label: item?.branchTitle,
       }))
     : [];
-
+  const sizeOptions = [
+    {
+      value: "small",
+      label: "small",
+    },
+    {
+      value: "medium",
+      label: "medium",
+    },
+    {
+      value: "large",
+      label: "large",
+    },
+    {
+      value: "X large",
+      label: "X large",
+    },
+    {
+      value: "XX large",
+      label: "XX large",
+    },
+    {
+      value: "XXX large",
+      label: "XXX large",
+    },
+  ];
+  const AvailableSizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
+  console.log(colors);
   return (
     <Holder className="container">
       <Main>
@@ -97,7 +124,7 @@ const CreatePost = () => {
           />
           {/* <select
             className="inputs"
-            onChange={(e) => setcategory(e.target.value)}
+            onChange={(e) => setcolors(e.target.value)}
           >
             <option value="none">category</option>
             {categories.map((item) => (
@@ -105,7 +132,7 @@ const CreatePost = () => {
             ))}
           </select> */}
           {/* <SelectWithSearch /> */}
-          <div className="w-64 mx-auto mt-10 mb-2">
+          {/* <div className="w-64 mx-auto mt-10 mb-2">
             <Select
               options={options}
               value={selectedOption}
@@ -113,8 +140,41 @@ const CreatePost = () => {
               placeholder="Chose a category"
               isSearchable
             />
+          </div> */}
+
+          <div className="d-flex align-items-center justify-content-between mb-2">
+            <span>Available Sizes :</span>
+            {AvailableSizes.map((item) => (
+              <div className="d-flex align-items-center">
+                {/* <input
+                  type="checkbox"
+                  id={item}
+                  className="me-2"
+                  onChange={() => setcolors(colors.push(item))}
+                /> */}
+                <input
+                  type="checkbox"
+                  id={item}
+                  className="me-2"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setcolors([...colors, item]); // إضافة
+                    } else {
+                      setcolors(colors.filter((color) => color !== item)); // إزالة
+                    }
+                  }}
+                />
+                <label
+                  htmlFor={item}
+                  className=""
+                  style={{ cursor: "pointer" }}
+                >
+                  {item}
+                </label>
+              </div>
+            ))}
           </div>
-          <div className="d-flex align-items-center mb-3">
+          {/* <div className="d-flex align-items-center mb-3">
             <input
               className="inputs m-0"
               type="text"
@@ -127,7 +187,7 @@ const CreatePost = () => {
               className="btn btn-success btn-sm rouded-pill ms-3"
               onClick={submitColor}
             >
-              Add A Color
+              ad
             </button>
           </div>
           <div>
@@ -137,7 +197,16 @@ const CreatePost = () => {
                 <span>{item}</span>
               </span>
             ))}
-          </div>
+          </div> */}
+          {/* <div className="w-64 mx-auto mt-10 mb-2">
+            <Select
+              options={sizeOptions}
+              value={colors}
+              onChange={setcolors}
+              placeholder="Chose Sizes"
+              isSearchable
+            />
+          </div> */}
           <div className="d-flex align-items-center mb-3">
             <input
               type="checkbox"

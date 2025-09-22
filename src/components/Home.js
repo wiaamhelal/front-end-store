@@ -14,7 +14,7 @@ import { logoutUser } from "../redux/apiCalls/authApiCall";
 const Home = () => {
   const { categories, productad } = useSelector((state) => state.category);
   const { user } = useSelector((state) => state.auth);
-  const { orders, allMaxOrders, postsAd, posts } = useSelector(
+  const { orders, allMaxOrders, postsAd, posts, maxPosts } = useSelector(
     (state) => state.post
   );
   const navicate = useNavigate();
@@ -188,8 +188,12 @@ const Home = () => {
         </h4>
         <div style={{ overflowX: "auto" }}>
           <div className="posts-container">
-            {posts
+            {maxPosts
               ?.filter((item) => item?.premium === true)
+              .filter(
+                (item, index, self) =>
+                  index === self.findIndex((obj) => obj.title === item.title)
+              )
               .slice(0, 20)
               .map((item) => (
                 <PostItem post={item} key={item?._id} />
@@ -206,7 +210,7 @@ const Home = () => {
             ))}
           </div> */}
           <div className="posts-container">
-            {posts
+            {maxPosts
               ?.filter((item) => item?.price < 100)
               .slice(0, 20)
               .map((item) => (
