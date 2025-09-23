@@ -6,7 +6,13 @@ import {
   fitchAllCategories,
   getAllAdsApi,
 } from "../redux/apiCalls/categoryApiCall";
-import { fetchPosts, getAllProuctsAdsApi } from "../redux/apiCalls/postApiCall";
+import {
+  fetchMaxPosts,
+  fetchPosts,
+  getAllOrdersApi,
+  getAllProuctsAdsApi,
+  getMaxAllOrdersApi,
+} from "../redux/apiCalls/postApiCall";
 import addimg1 from "../img/WhatsApp Image 2025-09-01 at 02.49.26_4a5a5fe6.jpg";
 import PostItem from "./PostItem";
 import { logoutUser } from "../redux/apiCalls/authApiCall";
@@ -38,8 +44,9 @@ const Home = () => {
     dispatch(fetchPosts(1));
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
+    dispatch(fetchMaxPosts());
   }, []);
-  console.log(filteredItems);
+  console.log(maxPosts);
 
   return (
     <Main className="text-dark">

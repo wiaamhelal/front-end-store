@@ -21,12 +21,13 @@ const BasketItem = ({
   showbutton,
   orderColor,
   returnOrder,
+  waranty,
   // toggle,
   // settoggle,
 }) => {
   const dispatch = useDispatch();
   const [toggle, settoggle] = useState(false);
-
+  console.log(waranty);
   const ReturnOrder = () => {
     swal({
       title: "Are you sure?",
@@ -56,14 +57,27 @@ const BasketItem = ({
               <span className="fw-bold title text-decor-none text-dark">
                 {title} ({orderColor})
               </span>
-              <span className="fw-bold price text-decor-none text-dark">
-                {formatCurrency(price)}
-              </span>
+              {waranty ===
+                "1-Year Extended Warranty by Salama Care(E-mail delivery) for AED 40.00" && (
+                <span className="fw-bold price text-decor-none text-dark">
+                  {formatCurrency(price + 40)}
+                </span>
+              )}
+              {waranty ===
+                "2-Year Extended Warranty by Salama Care(E-mail delivery) for AED 66.00" && (
+                <span className="fw-bold price text-decor-none text-dark">
+                  {formatCurrency(price + 66)}
+                </span>
+              )}
             </div>
             <p class="text-secondary desc mt-sm-2">
               {description?.substring(0, 60)}
               ...{" "}
             </p>
+            {waranty && (
+              <p className="text-dark">{waranty?.substring(0, 39)}</p>
+            )}
+
             <div className="d-none d-sm-flex mt-sm-4 likes-div">
               {" "}
               <div className="me-3 d-flex align-items-center">

@@ -41,6 +41,7 @@ const ParamsComp = () => {
   const [image, setimage] = useState("first");
   const [toggle, settoggle] = useState(false);
   const [orderColor, setOrderColor] = useState("Default Color");
+  const [waranty, setwaranty] = useState("");
 
   const likeToggle = () => {
     if (!user) {
@@ -92,7 +93,7 @@ const ParamsComp = () => {
     });
   };
   const addToTheCard = (post) => {
-    dispatch(postActions.setbasket({ ...post, orderColor }));
+    dispatch(postActions.setbasket({ ...post, orderColor, waranty }));
     dispatch(updatePostText({ sales: post.sales + 1 }, post._id));
   };
   useEffect(() => {
@@ -205,7 +206,12 @@ const ParamsComp = () => {
               </h2>
               <span className="text-color">{post?.description}</span>
               <div>
-                <p className="mt-2 text-primary mb-0">Visit the HP Store</p>
+                <Link
+                  to={`/products/branch/${post?.category}`}
+                  className="mt-2 mb-0"
+                >
+                  Visit the HP Store
+                </Link>
                 <div className="d-flex align-items-center">
                   <FirstStats>
                     {" "}
@@ -221,18 +227,23 @@ const ParamsComp = () => {
                         ))}
                     </div>
                   </FirstStats>
-                  <span className="text-primary">356 ratings</span>
+                  <span className="text-primary">
+                    {post?.comments?.length} ratings
+                  </span>
                 </div>
-                <span
-                  className="btn btn-dark btn-sm"
-                  style={{ fontSize: "12px", padding: " 0px 5px" }}
-                >
-                  recommended
-                </span>
+                {post.premium && (
+                  <span
+                    className="btn btn-dark btn-sm"
+                    style={{ fontSize: "12px", padding: " 0px 5px" }}
+                  >
+                    recommended
+                  </span>
+                )}
+
                 <p
                   style={{
                     fontSize: "12px",
-                    borderBottom: "1px solid black",
+                    borderBottom: "1px solid #8e8e8e",
                     paddingBottom: "10px",
                   }}
                   className="mt-2 fw-bold"
@@ -252,7 +263,7 @@ const ParamsComp = () => {
                   </label>
                 </span>
               ))} */}
-            <div className="mt-3">
+            <div className="">
               {otherColorProduct.map((item) => (
                 <img
                   src={item?.images[0]?.url}
@@ -342,6 +353,31 @@ const ParamsComp = () => {
                 Buy Now
               </button>
             </div>
+            <div style={{ fontWeight: "500" }}>
+              <p>All prices include VAT.</p>
+              <p>
+                <span className="fw-bold">20%</span> off Al Hilal Bank credit
+                Mastercard. Enter code <span className="fw-bold">AHBSEP20</span>{" "}
+                at checkout. Discount by Wiaam
+              </p>
+              <p>
+                <span className="fw-bold">20%</span> off with EIB Emarati Credit
+                Cards. Enter code <span className="fw-bold">EIBSEP20</span> at
+                checkout. Discount by Wiaam
+              </p>
+              <p>
+                <span className="fw-bold">10%</span> off with CBD Visa credit
+                cards on App. Enter code{" "}
+                <span className="fw-bold">CBDSEP10</span> at checkout. Discount
+                by Wiaam
+              </p>
+              <p>
+                <span className="fw-bold">10%</span> off HSBC Credit Card on
+                Amazon app. Enter code{" "}
+                <span className="fw-bold">HSBCSEP10</span> at checkout. Discount
+                by Wiaam
+              </p>
+            </div>
             <span className="col-12 col-sm-6 col-md-3 m-0 fw-bold">
               FREE delivery Wednesday, 4 September
             </span>
@@ -366,12 +402,28 @@ const ParamsComp = () => {
               <h5 className="bw-bold">Add a Protection Plan:</h5>
             </div>
             <div className="col-12 col-sm-6 col-md-3 fw-bold">
-              <input type="checkbox" /> 1-Year Extended Warranty by Salama Care
-              (E-mail delivery) for AED 40.00
+              <input
+                type="checkbox"
+                onChange={(e) =>
+                  setwaranty(
+                    "1-Year Extended Warranty by Salama Care(E-mail delivery) for AED 40.00"
+                  )
+                }
+              />{" "}
+              1-Year Extended Warranty by Salama Care (E-mail delivery) for AED
+              40.00
             </div>
             <div className="col-12 col-sm-6 col-md-3 fw-bold">
-              <input type="checkbox" /> 2-Year Extended Warranty by Salama Care
-              (E-mail delivery) for AED 66.00
+              <input
+                type="checkbox"
+                onChange={() =>
+                  setwaranty(
+                    "2-Year Extended Warranty by Salama Care(E-mail delivery) for AED 66.00"
+                  )
+                }
+              />{" "}
+              2-Year Extended Warranty by Salama Care (E-mail delivery) for AED
+              66.00
             </div>
           </Boxholder>
           {/* <div className="d-flex align-items-center justify-content-between mt-3"> */}
