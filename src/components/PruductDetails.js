@@ -40,7 +40,7 @@ const ParamsComp = () => {
   const { post, basket, posts, maxPosts } = useSelector((state) => state.post);
   const [image, setimage] = useState("first");
   const [toggle, settoggle] = useState(false);
-  const [orderColor, setOrderColor] = useState("Default Color");
+  const [orderColor, setOrderColor] = useState("");
   const [waranty, setwaranty] = useState("");
 
   const likeToggle = () => {
@@ -231,7 +231,7 @@ const ParamsComp = () => {
                     {post?.comments?.length} ratings
                   </span>
                 </div>
-                {post.premium && (
+                {post?.premium && (
                   <span
                     className="btn btn-dark btn-sm"
                     style={{ fontSize: "12px", padding: " 0px 5px" }}
@@ -276,7 +276,7 @@ const ParamsComp = () => {
             <div className="d-flex align-items-center mt-4">
               {post?.colors?.length > 0 && (
                 <>
-                  <h4 className="fw-bold me-3">Select the size:</h4>
+                  <h4 className="fw-bold me-3">Select Size:</h4>
                   <div className="d-flex align-items-center">
                     <select
                       className="inputs m-0 me-3"
@@ -401,17 +401,20 @@ const ParamsComp = () => {
               {" "}
               <h5 className="bw-bold">Add a Protection Plan:</h5>
             </div>
-            <div className="col-12 col-sm-6 col-md-3 fw-bold">
-              <input
-                type="checkbox"
-                onChange={(e) =>
-                  setwaranty(
-                    "1-Year Extended Warranty by Salama Care(E-mail delivery) for AED 40.00"
-                  )
-                }
-              />{" "}
-              1-Year Extended Warranty by Salama Care (E-mail delivery) for AED
-              40.00
+            <div className="col-12 col-sm-6 col-md-3 fw-bold  ">
+              <label htmlFor="1-year">
+                <input
+                  id="1-year"
+                  type="checkbox"
+                  onChange={(e) =>
+                    setwaranty(
+                      "1-Year Extended Warranty by Salama Care(E-mail delivery) for AED 40.00"
+                    )
+                  }
+                />{" "}
+                1-Year Extended Warranty by Salama Care (E-mail delivery) for
+                AED 40.00
+              </label>
             </div>
             <div className="col-12 col-sm-6 col-md-3 fw-bold">
               <input

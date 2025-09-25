@@ -41,7 +41,7 @@ const BasketItem = ({
       }
     });
   };
-
+  console.log(orderColor);
   return (
     <Main className="position-relative">
       <Link to={`/posts/details/${id}`} style={{ textDecoration: "none" }}>
@@ -55,7 +55,7 @@ const BasketItem = ({
           <div className="position-relative col-8">
             <div className="d-flex align-items-center justify-content-between">
               <span className="fw-bold title text-decor-none text-dark">
-                {title} ({orderColor})
+                {title} {orderColor ? `Size ${orderColor}` : null}
               </span>
               {waranty ===
                 "1-Year Extended Warranty by Salama Care(E-mail delivery) for AED 40.00" && (
@@ -65,6 +65,11 @@ const BasketItem = ({
               )}
               {waranty ===
                 "2-Year Extended Warranty by Salama Care(E-mail delivery) for AED 66.00" && (
+                <span className="fw-bold price text-decor-none text-dark">
+                  {formatCurrency(price + 66)}
+                </span>
+              )}
+              {waranty === "" && (
                 <span className="fw-bold price text-decor-none text-dark">
                   {formatCurrency(price + 66)}
                 </span>

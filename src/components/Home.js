@@ -41,12 +41,12 @@ const Home = () => {
     // dispatch(getAllProfilesApi());
     // dispatch(getAllOrdersApi());
     // dispatch(getMaxAllOrdersApi());
-    dispatch(fetchPosts(1));
+    dispatch(fetchPosts(2));
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
     dispatch(fetchMaxPosts());
   }, []);
-  console.log(maxPosts);
+  console.log(posts);
 
   return (
     <Main className="text-dark">
@@ -303,7 +303,7 @@ const Home = () => {
             {posts
               ?.filter(
                 (item, index, self) =>
-                  index === self.findIndex((obj) => obj.title === item.title)
+                  index === self.findIndex((obj) => obj?.title === item?.title)
               )
               .slice(0, 20)
               .map((item) => (
