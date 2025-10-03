@@ -71,7 +71,7 @@ const BasketItem = ({
               )}
               {waranty === "" && (
                 <span className="fw-bold price text-decor-none text-dark">
-                  {formatCurrency(price + 66)}
+                  {formatCurrency(price)}
                 </span>
               )}
             </div>

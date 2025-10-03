@@ -72,7 +72,7 @@ const ParamsComp = () => {
     }
   };
   useEffect(() => {
-    dispatch(fetchPosts(1));
+    // dispatch(fetchPosts(1));
     // dispatch(getMaxAllOrdersApi());
     dispatch(fetchMaxPosts());
   }, []);
@@ -108,7 +108,7 @@ const ParamsComp = () => {
   const otherColorProduct = maxPosts.filter(
     (item) => item?.title == post?.title
   );
-  console.log(otherColorProduct);
+  console.log(post);
 
   return (
     <Holder>
@@ -524,8 +524,8 @@ const ParamsComp = () => {
           <BrouseItems>
             <h4>Customers who bought this item also bought :</h4>
             <div className="row gap-3 justify-content-center brousing">
-              {Array.isArray(posts) &&
-                posts?.map(
+              {Array.isArray(maxPosts) &&
+                maxPosts?.map(
                   (item) =>
                     item?.category == post?.category && (
                       <PostItem post={item} key={item?._id} />

@@ -41,7 +41,7 @@ const Home = () => {
     // dispatch(getAllProfilesApi());
     // dispatch(getAllOrdersApi());
     // dispatch(getMaxAllOrdersApi());
-    dispatch(fetchPosts(2));
+    dispatch(fetchPosts(1));
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
     dispatch(fetchMaxPosts());
@@ -300,10 +300,10 @@ const Home = () => {
         <h4 className="fw-bold  pt-3">New Products</h4>
         <div style={{ overflowX: "auto" }}>
           <div className="posts-container">
-            {posts
+            {maxPosts
               ?.filter(
                 (item, index, self) =>
-                  index === self.findIndex((obj) => obj?.title === item?.title)
+                  index === self?.findIndex((obj) => obj?.title === item?.title)
               )
               .slice(0, 20)
               .map((item) => (
