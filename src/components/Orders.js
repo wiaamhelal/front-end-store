@@ -37,12 +37,28 @@ const Orders = () => {
           </div>
           <h2 className="mb-3 fw-bold text-secondary">Your Orders : </h2>
 
-          <div>
+          {/* <div>
             {orders?.map(
               (item) =>
                 item?.userDetails == user?._id && <YourOrderItem item={item} />
             )}{" "}
+          </div> */}
+
+          <div>
+            {Array.isArray(orders) &&
+              orders
+                .filter((item) => item?.userDetails === user?._id)
+                .map((item) => <YourOrderItem key={item._id} item={item} />)}
           </div>
+
+          {/* <div>
+            {(orders ?? []).map(
+              (item) =>
+                item?.userDetails === user?._id && (
+                  <YourOrderItem key={item._id} item={item} />
+                )
+            )}
+          </div> */}
 
           {/* <h2 className="fw-bold text-secondary mt-4">
         delevery date :

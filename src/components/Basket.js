@@ -1,22 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import BasketItem from "./BasketItem";
 import formatCurrency from "./FormatCurrency";
 import { GetBasketTotal } from "../App";
 import { json, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { postActions } from "../redux/slices/postSlice";
 const Basket = () => {
-  const navicate = useNavigate();
-  const [cobonText, setcobonText] = useState("");
-  const CobonCode = (e) => {
-    e.preventDefault();
-    toast.error("the cobon is wrong");
-    setcobonText("");
-  };
-  const { basket } = useSelector((state) => state.post);
+  const { basket, totalPrice } = useSelector((state) => state.post);
 
   const { user } = useSelector((state) => state.auth);
+  const navicate = useNavigate();
+  const dispatch = useDispatch();
+  const [cobonCode, setcobonCode] = useState("");
+  // const [lastTotal, setLastTotal] = useState(
+  //   formatCurrency(GetBasketTotal(basket))
+  // );
+  useEffect(() => {
+    dispatch(postActions.setTotalPrice(formatCurrency(GetBasketTotal(basket))));
+  }, [basket]);
+  console.log(totalPrice);
+  const CobonCodeSubmit = (e) => {
+    e.preventDefault();
+    if (cobonCode == "h2") {
+      dispatch(
+        postActions.setTotalPrice(formatCurrency(GetBasketTotal(basket) * 0.9))
+      );
+      toast.success("you got a discout 10%");
+    } else if (cobonCode == "AHBSEP20") {
+      dispatch(
+        postActions.setTotalPrice(formatCurrency(GetBasketTotal(basket) * 0.8))
+      );
+      toast.success("you got a discout 20%");
+    } else if (cobonCode == "EIBSEP20") {
+      dispatch(
+        postActions.setTotalPrice(formatCurrency(GetBasketTotal(basket) * 0.8))
+      );
+      toast.success("you got a discout 20%");
+    } else {
+      toast.error("the cobon is wrong");
+    }
+    setcobonCode("");
+  };
 
   return (
     <Holder>
@@ -37,19 +63,30 @@ const Basket = () => {
             className="col-12 col-sm-4 rounded bg-light p-2 m-auto"
             style={{ height: "fit-content" }}
           >
+            {/* {CobonCode == "h2" ? (
+              <h5 className="text-center mb-3">
+                Subtotal ( {basket?.length} item ) :{" "}
+                {formatCurrency(GetBasketTotal(basket) * 0.9)}
+              </h5>
+            ) : (
+              <h5 className="text-center mb-3">
+                Subtotal ( {basket?.length} item ) :{" "}
+                {formatCurrency(GetBasketTotal(basket))}
+              </h5>
+            )} */}
             <h5 className="text-center mb-3">
-              Subtotal ( {basket?.length} item ) :{" "}
-              {formatCurrency(GetBasketTotal(basket))}
+              Subtotal ( {basket?.length} item ) : {totalPrice}
             </h5>
+
             <h6>Try to get discount :</h6>
             <form
-              onSubmit={(e) => CobonCode(e)}
+              onSubmit={(e) => CobonCodeSubmit(e)}
               className="d-flex align-items-center justify-content-between"
               style={{ flexWrap: "wrap" }}
             >
               <input
-                onChange={(e) => setcobonText(e.target.value)}
-                value={cobonText}
+                onChange={(e) => setcobonCode(e.target.value)}
+                value={cobonCode}
                 className="rounded"
                 type="text"
                 placeholder="type your cobon code"

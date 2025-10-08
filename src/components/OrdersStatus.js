@@ -19,7 +19,7 @@ import Paganation from "./Paganation";
 import { Link } from "react-router-dom";
 
 const OrdersStatus = () => {
-  const { orders, ordersCount, allMaxOrders } = useSelector(
+  const { orders, ordersCount, allMaxOrders, totalPrice } = useSelector(
     (state) => state.post
   );
 
@@ -99,7 +99,8 @@ const OrdersStatus = () => {
                   </h4>
                   <h4 className="fw-bold text-secondary mt-4">
                     Total Price :{" "}
-                    {formatCurrency(GetBasketTotal(item?.orderDetails))}
+                    {/* {formatCurrency(GetBasketTotal(item?.orderDetails))} */}
+                    {totalPrice}
                   </h4>
                   <h4 className="fw-bold text-secondary mt-4">
                     Order Time :{" "}

@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import formatCurrency from "../../components/FormatCurrency";
+import { GetBasketTotal } from "../../App";
 const postSlice = createSlice({
   name: "post",
   initialState: {
@@ -19,6 +21,7 @@ const postSlice = createSlice({
     ordersCount: null,
     returnOrdes: [],
     postsAd: [],
+    totalPrice: null,
   },
   reducers: {
     setPosts(state, action) {
@@ -109,6 +112,9 @@ const postSlice = createSlice({
     },
     deletePostad(state, action) {
       state.postsAd = state.postsAd.filter((c) => c._id !== action.payload);
+    },
+    setTotalPrice(state, action) {
+      state.totalPrice = action.payload;
     },
   },
 });

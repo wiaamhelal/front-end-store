@@ -8,9 +8,11 @@ import ToggleReturnOrder from "./ToggleReturnOrder";
 
 const YourOrderItem = ({ item }) => {
   const { profile } = useSelector((state) => state.profile);
+  // const { totalPrice } = useSelector((state) => state.post);
+  const { basket, totalPrice } = useSelector((state) => state.post);
 
   item.orderDetails.map((it) => {});
-
+  console.log(item);
   return (
     <div>
       <div className="order-item">
@@ -45,7 +47,8 @@ const YourOrderItem = ({ item }) => {
           />
         )}
         <h4 className="fw-bold text-secondary mt-4">
-          Total Price : {formatCurrency(GetBasketTotal(item.orderDetails))}
+          {/* Total Price : {formatCurrency(GetBasketTotal(item.orderDetails))} */}
+          Total Price : {item?.totalPrice}
         </h4>
         <h4 className="fw-bold text-secondary mt-4">
           Order Time : {moment(item.createdAt).format("MMMM DD  h:mma")}

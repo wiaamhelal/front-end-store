@@ -18,18 +18,21 @@ const Payment = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { profile } = useSelector((state) => state.profile);
-  const { basket } = useSelector((state) => state.post);
+  const { basket, totalPrice } = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(getUserProfile(user._id));
   }, [profile]);
-
+  const newBasket = [...basket, totalPrice];
   const buyNow = async () => {
     dispatch(setConfirmOrderApi(user._id));
-    await dispatch(createNewOrderApi({ newOrder: basket }));
+    await dispatch(
+      createNewOrderApi({ newOrder: basket, totalPrice: totalPrice })
+    );
     navicate("/orders");
     dispatch(postActions.clearBasket());
-    window.location.reload(false);
+    // window.location.reload(false);
   };
+  console.log(basket);
   return (
     <Holder>
       <Main className="container text-color ">
@@ -82,7 +85,8 @@ const Payment = () => {
             <h6 className="fw-bold mt-2">
               Order total :{" "}
               <span style={{ marginLeft: "25px" }}>
-                {formatCurrency(GetBasketTotal(basket))}
+                {/* {formatCurrency(GetBasketTotal(basket))} */}
+                {totalPrice}
               </span>
             </h6>
             <button className="btn btn-success w-100 mb-1" onClick={buyNow}>
