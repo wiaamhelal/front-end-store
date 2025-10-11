@@ -387,3 +387,38 @@ export function deleteProductAdApi(adId) {
     }
   };
 }
+
+// create ad api (24 hours)
+export function AdFor24HoursApi(newad) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(postActions.setLoading(true));
+      const { data } = await request.post(`/api/posts/ad-for-24hours`, newad, {
+        headers: {
+          Authorization: "Bearer " + getState().auth.user.token,
+          // "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("the ad has been added successfuly");
+      dispatch(postActions.setIsPostCreated());
+      setTimeout(() => dispatch(postActions.falseIsPostCreated()), 2000);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      dispatch(postActions.setLoading(false));
+    }
+  };
+}
+
+// fitch all ads
+export function getAllProuctsAds24hoursApi() {
+  return async (dispatch) => {
+    try {
+      const { data } = await request.get(`/api/posts/get-product-ad-24hours`);
+      dispatch(postActions.setadFor24Hours(data));
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.response.data);
+    }
+  };
+}

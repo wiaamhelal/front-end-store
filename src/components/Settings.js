@@ -24,7 +24,8 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
   const [comment, setcomment] = useState("");
   const { posts } = useSelector((state) => state.post);
 
-  const myPosts = posts.filter((item) => item?.user.id == user._id);
+  const myPosts =
+    Array.isArray(posts) && posts?.filter((item) => item?.user.id == user._id);
   console.log(myPosts);
 
   useEffect(() => {
@@ -293,40 +294,41 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
               </tr>
             </thead>
             <tbody>
-              {myPosts?.map((item, index) => (
-                <tr>
-                  <th scope="row">{index + 1}</th>
-                  <td>{item?.title}</td>
-                  <td style={{ minWidth: "150px" }}>
-                    {/* <img
+              {Array.isArray(myPosts) &&
+                myPosts?.map((item, index) => (
+                  <tr>
+                    <th scope="row">{index + 1}</th>
+                    <td>{item?.title}</td>
+                    <td style={{ minWidth: "150px" }}>
+                      {/* <img
                       src={item.user.profilePhoto.url}
                       alt=""
                       style={{ width: "40px", height: "40px" }}
                       className="rounded-circle"
                     /> */}
-                    <span className="ms-2">
-                      {" "}
-                      {moment(item.createdAt).format("MMMM DD  h:mma")}
-                    </span>
-                  </td>
+                      <span className="ms-2">
+                        {" "}
+                        {moment(item.createdAt).format("MMMM DD  h:mma")}
+                      </span>
+                    </td>
 
-                  <td style={{ minWidth: "170px" }}>
-                    <Link
-                      to={`/posts/details/${item?._id}`}
-                      className="btn btn-success me-3 btn-sm"
-                    >
-                      view post
-                    </Link>
-                    <button
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => deletePost(item?._id)}
-                      disabled={user.email !== "weaam224112@gmail.com"}
-                    >
-                      delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td style={{ minWidth: "170px" }}>
+                      <Link
+                        to={`/posts/details/${item?._id}`}
+                        className="btn btn-success me-3 btn-sm"
+                      >
+                        view post
+                      </Link>
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => deletePost(item?._id)}
+                        disabled={user.email !== "weaam224112@gmail.com"}
+                      >
+                        delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

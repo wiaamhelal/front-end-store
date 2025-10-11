@@ -42,6 +42,11 @@
   transform: translate(-50%, -50%);
 }
 
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 /* start the admin page */
 .team {

@@ -53,6 +53,7 @@ const MainDashboard = () => {
 
   const [catetoggle, setcatetoggle] = useState(false);
   const [adToggle, setadToggle] = useState(false);
+  const [productToggle, setProductToggle] = useState(false);
   return (
     <div>
       <div className=" row justify-content-center gap-3">
@@ -391,7 +392,11 @@ const MainDashboard = () => {
                   type="button"
                   className="btn btn-success rounded-pill"
                   data-bs-dismiss="modal"
-                  onClick={() => navicate("/discount-product-ad")}
+                  // onClick={() => navicate("/discount-product-ad")}
+                  onClick={() => {
+                    setadToggle(false);
+                    setProductToggle(true);
+                  }}
                 >
                   One Product
                 </button>
@@ -401,6 +406,57 @@ const MainDashboard = () => {
                   onClick={() => navicate("/create-discount-ad")}
                 >
                   Hall Category
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </UbdatePassword>
+      <UbdatePassword>
+        <div
+          className="modal align-items-center justify-content-center"
+          tabindex="-1"
+          style={
+            productToggle
+              ? { display: "flex ", background: "#0000005e" }
+              : { display: "none" }
+          }
+        >
+          <div className="modal-dialog" style={{ animation: "fade 0.5s" }}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  For one day , or unlimited time ?
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setProductToggle(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p className=" lh-md text-center">
+                  do you need the ad for one day or unlimited time (one day it
+                  will delete after 24 hours)
+                </p>
+              </div>
+              <div className="modal-footer d-flex justify-content-between">
+                <button
+                  type="button"
+                  className="btn btn-success rounded-pill"
+                  data-bs-dismiss="modal"
+                  onClick={() => navicate("/discount-product-ad-24hours")}
+                >
+                  One day
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success rounded-pill"
+                  onClick={() => navicate("/discount-product-ad")}
+                >
+                  unlimited
                 </button>
               </div>
             </div>

@@ -5,17 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMaxPosts,
   fetchPosts,
+  getAllProuctsAds24hoursApi,
   getPostsCount,
 } from "../redux/apiCalls/postApiCall";
 import { SideBar } from "./SideBar";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-const PostList = () => {
-  const { posts, search, maxPosts } = useSelector((state) => state.post);
+const TodayDeals = () => {
+  const { posts, search, maxPosts, adsFor24Hours } = useSelector(
+    (state) => state.post
+  );
   const { postsCount } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  const post = adsFor24Hours;
   const POST_PER_PAGE = 8;
-
+  console.log(post);
   const [currentPage, setcurrentPage] = useState(1);
   const pages = Math.ceil(postsCount / POST_PER_PAGE);
   useEffect(() => {
@@ -26,6 +30,10 @@ const PostList = () => {
   useEffect(() => {
     dispatch(getPostsCount());
   }, [getPostsCount]);
+
+  useEffect(() => {
+    dispatch(getAllProuctsAds24hoursApi());
+  }, []);
 
   return (
     <Holder>
@@ -63,4 +71,4 @@ const Holder = styled.div`
   padding-top: 70px;
 `;
 
-export default PostList;
+export default TodayDeals;

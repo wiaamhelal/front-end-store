@@ -29,7 +29,9 @@ const DiscountList = () => {
               <th scope="col">count</th>
               <th scope="col">dicount amount</th>
               <th scope="col">category ad</th>
-              <th scope="col">Action</th>
+              <th scope="col" className="flex-end ">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -46,7 +48,7 @@ const DiscountList = () => {
                   <span className="ms-2">{item?.range} %</span>
                 </td>
                 <td>{item?.category}</td>
-                <td>
+                <td className="flex-end ">
                   <Link
                     to={`/products/main/${item?.category}`}
                     className="btn btn-success me-3 btn-sm"
@@ -77,7 +79,9 @@ const DiscountList = () => {
               <th scope="col">count</th>
               <th scope="col">dicount amount</th>
               <th scope="col">Product ad</th>
-              <th scope="col">Action</th>
+              <th scope="col" className="flex-end">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -88,7 +92,7 @@ const DiscountList = () => {
                   <span className="ms-2">{item?.order?.oldPrice[1]} %</span>
                 </td>
                 <td>{item?.order?.title}</td>
-                <td>
+                <td className="flex-end ">
                   <Link
                     to={`/products/main/${item?.category}`}
                     className="btn btn-success me-3 btn-sm"

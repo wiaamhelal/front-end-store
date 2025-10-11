@@ -61,6 +61,8 @@ import DiscountProductAd from "./components/DiscountProductAd";
 import BranchProducts from "./components/BranchProducts";
 import BestSales from "./components/BestSales";
 import OurComunity from "./components/OurComunity";
+import TodayDeals from "./components/TodayDeals";
+import DiscountProductAd24Hours from "./components/DiscountProductAd24Hours";
 
 export const GetBasketTotal = (basket) => {
   return basket?.reduce((total, current) => {
@@ -527,6 +529,22 @@ function App() {
           element={
             <>
               <Header /> <OurComunity />
+            </>
+          }
+        />
+        <Route
+          path="/today-deals"
+          element={
+            <>
+              <Header /> <TodayDeals />
+            </>
+          }
+        />
+        <Route
+          path="/discount-product-ad-24hours"
+          element={
+            <>
+              <Header /> <DiscountProductAd24Hours />
             </>
           }
         />
