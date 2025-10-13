@@ -77,6 +77,11 @@ const Headerr = () => {
                   Today's Deals
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/products2">
+                  Brouse
+                </Link>
+              </li>
               {!user && (
                 <li className="nav-item dropdown">
                   <Link

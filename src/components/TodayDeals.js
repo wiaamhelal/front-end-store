@@ -1,67 +1,108 @@
+// import React, { useEffect, useState } from "react";
+// import PostItem from "./PostItem";
+// import Paganation from "./Paganation";
+// import { useDispatch, useSelector } from "react-redux";
+// import {
+//   fetchMaxPosts,
+//   fetchPosts,
+//   getAllProuctsAds24hoursApi,
+//   getPostsCount,
+// } from "../redux/apiCalls/postApiCall";
+// import { SideBar } from "./SideBar";
+// import { Link } from "react-router-dom";
+// import styled from "styled-components";
+// const TodayDeals = () => {
+//   const { adsFor24Hours } = useSelector((state) => state.post);
+//   const dispatch = useDispatch();
+//   const POST_PER_PAGE = 8;
+//   const [currentPage, setcurrentPage] = useState(1);
+//   const pages = Math.ceil(adsFor24Hours?.length / POST_PER_PAGE);
+
+//   useEffect(() => {
+//     dispatch(getAllProuctsAds24hoursApi());
+//   }, []);
+
+//   return (
+//     <Holder>
+//       <div className="container">
+//         <SideBar />
+//         <div className="row gap-3 justify-content-center d-flex">
+//           {adsFor24Hours.map((item) => (
+//             <PostItem post={item?.order} key={item?.order?._id} />
+//           ))}
+//         </div>
+
+//         <div className="col-12 mt-3">
+//           <Paganation
+//             currentPage={currentPage}
+//             setcurrentPage={setcurrentPage}
+//             pages={pages}
+//           />
+//         </div>
+//       </div>
+//     </Holder>
+//   );
+// };
+
+// const Holder = styled.div`
+//   padding-top: 70px;
+// `;
+
+// export default TodayDeals;
+
 import React, { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import Paganation from "./Paganation";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchMaxPosts,
-  fetchPosts,
-  getAllProuctsAds24hoursApi,
-  getPostsCount,
-} from "../redux/apiCalls/postApiCall";
+import { getAllProuctsAds24hoursApi } from "../redux/apiCalls/postApiCall";
 import { SideBar } from "./SideBar";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-const TodayDeals = () => {
-  const { posts, search, maxPosts, adsFor24Hours } = useSelector(
-    (state) => state.post
-  );
-  const { postsCount } = useSelector((state) => state.post);
-  const dispatch = useDispatch();
-  const post = adsFor24Hours;
-  const POST_PER_PAGE = 8;
-  console.log(post);
-  const [currentPage, setcurrentPage] = useState(1);
-  const pages = Math.ceil(postsCount / POST_PER_PAGE);
-  useEffect(() => {
-    dispatch(fetchPosts(currentPage));
-    dispatch(fetchMaxPosts());
-  }, [currentPage, search]);
 
-  useEffect(() => {
-    dispatch(getPostsCount());
-  }, [getPostsCount]);
+const TodayDeals = () => {
+  const { adsFor24Hours } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+
+  const POST_PER_PAGE = 8;
+  const [currentPage, setcurrentPage] = useState(1);
+
+  // حساب عدد الصفحات
+  const pages = Math.ceil(adsFor24Hours?.length / POST_PER_PAGE);
+
+  // تحديد أول وآخر index في الصفحة الحالية
+  const startIndex = (currentPage - 1) * POST_PER_PAGE;
+  const endIndex = startIndex + POST_PER_PAGE;
+
+  // قصّ النتائج بناءً على الصفحة
+  const displayedPosts = adsFor24Hours?.slice(startIndex, endIndex);
 
   useEffect(() => {
     dispatch(getAllProuctsAds24hoursApi());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Holder>
       <div className="container">
-        <SideBar />
+        {/* <SideBar /> */}
         <div className="row gap-3 justify-content-center d-flex">
-          {(search === "" ? posts : maxPosts)
-            ?.filter((item) =>
-              search === "" ? item : item.title.toLowerCase().includes(search)
-            )
-            .filter(
-              (item, index, self) =>
-                index === self.findIndex((obj) => obj.title === item.title)
-            )
-            .map((item) => (
-              <PostItem post={item} key={item?._id} />
-            ))}
+          {displayedPosts?.length > 0 ? (
+            displayedPosts.map((item) => (
+              <PostItem post={item?.order} key={item?.order?._id} />
+            ))
+          ) : (
+            <p className="text-center mt-4">لا توجد منتجات اليوم</p>
+          )}
         </div>
 
-        <div className="col-12 mt-3">
-          {/* {posts?.length > 2 && ( */}
-          <Paganation
-            currentPage={currentPage}
-            setcurrentPage={setcurrentPage}
-            pages={pages}
-          />
-          {/* )} */}
-        </div>
+        {/* Pagination */}
+        {pages > 1 && (
+          <div className="col-12 mt-3">
+            <Paganation
+              currentPage={currentPage}
+              setcurrentPage={setcurrentPage}
+              pages={pages}
+            />
+          </div>
+        )}
       </div>
     </Holder>
   );
