@@ -46,7 +46,7 @@ const Home = () => {
     dispatch(getAllProuctsAdsApi());
     dispatch(fetchMaxPosts());
   }, []);
-  console.log(posts);
+  console.log(postsAd);
 
   return (
     <Main className="text-dark">

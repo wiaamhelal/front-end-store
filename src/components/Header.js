@@ -135,7 +135,7 @@ const Headerr = () => {
                   </Link>
                 </li>
               )}
-              {user?.isAdmin && (
+              {/* {user?.isAdmin && (
                 <li className="nav-item">
                   <Link
                     className="nav-link"
@@ -146,7 +146,7 @@ const Headerr = () => {
                     Closing Page
                   </Link>
                 </li>
-              )}
+              )} */}
               <li className="nav-item">
                 <Link
                   className="nav-link"

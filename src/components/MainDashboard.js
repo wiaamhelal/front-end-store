@@ -25,6 +25,8 @@ import salesImg from "../img/sales-up-graph-svgrepo-com (1).svg";
 import createProductIcon from "../img/create-dashboard-svgrepo-com.svg";
 import discountimg from "../img/discount.svg";
 import discountListPic from "../img/discount-label-svgrepo-com.svg";
+import accountentPic from "../img/accounting-man-upper-body-svgrepo-com.svg";
+import ownerPic from "../img/businessman-information-svgrepo-com.svg";
 
 const MainDashboard = () => {
   const navicate = useNavigate();
@@ -282,6 +284,44 @@ const MainDashboard = () => {
             className="btn btn-success btn-sm w-100 fw-bold"
           >
             edit the discount list
+          </Link>{" "}
+        </div>
+        <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
+          <div className="d-flex align-itmes-center justify-content-between">
+            <h4>Accountant Page</h4>
+            {/* <h5>{productad?.length}</h5> */}
+          </div>
+          <div className="d-flex justify-content-center">
+            <img
+              src={accountentPic}
+              style={{ width: "100px", marginBottom: "10px" }}
+              alt=""
+            />
+          </div>
+          <Link
+            to="/closing-page"
+            className="btn btn-success btn-sm w-100 fw-bold"
+          >
+            Accountant Page
+          </Link>{" "}
+        </div>
+        <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
+          <div className="d-flex align-itmes-center justify-content-between">
+            <h4>Owner Page</h4>
+            {/* <h5>{productad?.length}</h5> */}
+          </div>
+          <div className="d-flex justify-content-center">
+            <img
+              src={ownerPic}
+              style={{ width: "100px", marginBottom: "10px" }}
+              alt=""
+            />
+          </div>
+          <Link
+            to="/closing-page"
+            className="btn btn-success btn-sm w-100 fw-bold"
+          >
+            Owner Page
           </Link>{" "}
         </div>
       </div>

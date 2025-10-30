@@ -88,9 +88,17 @@ const OrdersStatus = () => {
   return (
     <Holder>
       {orders.length > 0 && (
-        <button className="btn btn-success mt-2 ms-2" onClick={closeForToday}>
-          close for today
-        </button>
+        <>
+          {orders.map((item) => (
+            <button
+              className="btn btn-success mt-2 ms-2"
+              onClick={closeForToday}
+              disabled={item.payment == "unpaid"}
+            >
+              close for today
+            </button>
+          ))}
+        </>
       )}
 
       {Array.isArray(orders) && (
