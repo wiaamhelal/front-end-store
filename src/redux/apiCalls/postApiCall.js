@@ -422,3 +422,77 @@ export function getAllProuctsAds24hoursApi() {
     }
   };
 }
+
+// // updtate order status
+// export function paymentOrderApi(newOrder, orderId) {
+//   return async (dispatch, getState) => {
+//     try {
+//       const { data } = await request.put(
+//         `/api/orders/payment/${orderId}`,
+//         newOrder,
+//         {
+//           headers: {
+//             Authorization: "bearer " + getState().auth.user.token,
+//           },
+//         }
+//       );
+//       dispatch(postActions.setAllOrders(data));
+//     } catch (error) {
+//       toast.error(error.response.data.message);
+//     }
+//   };
+// }
+
+export function paymentOrderApi(newOrder, orderId) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.put(
+        `/api/orders/payment/${orderId}`,
+        newOrder,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      toast.success("تم تحديث حالة الدفع بنجاح ✅");
+      dispatch(postActions.setPayment(data.order)); // إعادة تحميل الطلبات بعد التحديث
+      console.log("Updated order from server:", data.order);
+      await dispatch(getMaxAllOrdersApi());
+    } catch (error) {
+      toast.error(error.response?.data?.message || "حدث خطأ أثناء التحديث");
+    }
+  };
+}
+
+export function closingOrdersApi(products) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.post(
+        `/api/orders/create-closing`,
+        products,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      toast.success("the closing has been done successfuly✅");
+      console.log("Updated order from server:", data);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "حدث خطأ أثناء التحديث");
+    }
+  };
+}
+
+export function getAllClosingOrdersApi() {
+  return async (dispatch) => {
+    try {
+      const { data } = await request.get(`api/orders/create-closing`);
+      dispatch(postActions.setClosingOrders(data));
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error.response.data);
+    }
+  };
+}

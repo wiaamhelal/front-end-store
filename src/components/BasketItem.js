@@ -22,12 +22,13 @@ const BasketItem = ({
   orderColor,
   returnOrder,
   waranty,
+  close,
   // toggle,
   // settoggle,
 }) => {
   const dispatch = useDispatch();
   const [toggle, settoggle] = useState(false);
-  console.log(waranty);
+
   const ReturnOrder = () => {
     swal({
       title: "Are you sure?",
@@ -41,7 +42,6 @@ const BasketItem = ({
       }
     });
   };
-  console.log(orderColor);
   return (
     <Main className="position-relative">
       <Link to={`/posts/details/${id}`} style={{ textDecoration: "none" }}>
@@ -107,15 +107,20 @@ const BasketItem = ({
         </button>
       )}
       {returnOrder && (
-        <button
-          onClick={ReturnOrder}
-          // onClick={() => dispatch(postActions.deleteBasketItem(id))}
-          className="btn btn-sm btn-secondary position-absolute return-button"
-          style={{ bottom: "5px", right: "0px", width: "fit-content" }}
-        >
-          Return order
-        </button>
+        <>
+          {!close && (
+            <button
+              onClick={ReturnOrder}
+              // onClick={() => dispatch(postActions.deleteBasketItem(id))}
+              className="btn btn-sm btn-secondary position-absolute return-button"
+              style={{ bottom: "5px", right: "0px", width: "fit-content" }}
+            >
+              Return order
+            </button>
+          )}
+        </>
       )}
+
       <ToggleReturnOrder
         toggle={toggle}
         settoggle={settoggle}

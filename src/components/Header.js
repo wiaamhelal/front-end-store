@@ -135,6 +135,18 @@ const Headerr = () => {
                   </Link>
                 </li>
               )}
+              {user?.isAdmin && (
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    to="/closing-page"
+                    tabindex="-1"
+                    aria-disabled="true"
+                  >
+                    Closing Page
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link
                   className="nav-link"

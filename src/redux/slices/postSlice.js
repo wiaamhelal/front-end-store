@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import formatCurrency from "../../components/FormatCurrency";
 import { GetBasketTotal } from "../../App";
 const postSlice = createSlice({
@@ -23,6 +23,8 @@ const postSlice = createSlice({
     postsAd: [],
     adsFor24Hours: [],
     totalPrice: null,
+    payment: "",
+    ClosingOrders: [],
   },
   reducers: {
     setPosts(state, action) {
@@ -119,6 +121,81 @@ const postSlice = createSlice({
     },
     setTotalPrice(state, action) {
       state.totalPrice = action.payload;
+    },
+    // state.payment = action.payload;
+    // state.allMaxOrders.map((item) =>
+    //   item._id === action.payload._id ? action.payload : item
+    // );
+    // state.orders = action.payload;
+
+    // const updatedOrder = action.payload;
+    // const index = state.allMaxOrders.findIndex(
+    //   (order) => order._id === updatedOrder._id
+    // );
+    // if (index !== -1) {
+    //   // تحديث الطلب داخل المصفوفة
+    //   state.allMaxOrders[index] = updatedOrder;
+    // }
+    // setPayment: (state, action) => {
+    //   const updatedOrder = action.payload;
+
+    //   // تحديث الطلب داخل مصفوفة الطلبات
+    //   const index = state.orders.findIndex((o) => o._id === updatedOrder._id);
+    //   if (index !== -1) {
+    //     state.orders[index] = updatedOrder;
+    //   }
+
+    //   // أو إذا عندك orders في مكان آخر (مثلاً allMaxOrders)
+    //   const maxIndex = state.allMaxOrders?.findIndex(
+    //     (o) => o._id === updatedOrder._id
+    //   );
+    //   if (maxIndex !== -1) {
+    //     state.allMaxOrders[maxIndex] = updatedOrder;
+    //   }
+    // },
+    // setPayment: (state, action) => {
+    //   const updatedOrder = action.payload;
+
+    //   // تحديث الطلب داخل orders
+    //   const index = state.orders.findIndex((o) => o._id === updatedOrder._id);
+    //   if (index !== -1) {
+    //     state.orders[index] = updatedOrder;
+    //   }
+
+    //   // تحديث الطلب داخل allMaxOrders
+    //   const maxIndex = state.allMaxOrders?.findIndex(
+    //     (o) => o._id === updatedOrder._id
+    //   );
+    //   if (maxIndex !== -1) {
+    //     state.allMaxOrders[maxIndex] = updatedOrder;
+    //   }
+
+    //   // في حال لم يكن موجود (احتياط)
+    //   if (index === -1 && maxIndex === -1) {
+    //     state.allMaxOrders.unshift(updatedOrder);
+    //   }
+    // },
+
+    setPayment: (state, action) => {
+      const updatedOrder = action.payload;
+
+      console.log("قبل التحديث:", current(state.allMaxOrders));
+
+      const idx = state.allMaxOrders.findIndex(
+        (o) => o._id === updatedOrder._id
+      );
+      console.log(idx);
+      if (idx !== -1) {
+        // نستبدل العنصر الموجود
+        state.allMaxOrders[idx] = updatedOrder;
+      } else {
+        // إذا لم يكن موجودًا، نضيفه في البداية (اختياري)
+        state.allMaxOrders.unshift(updatedOrder);
+      }
+      console.log("بعد التحديث:", current(state.allMaxOrders));
+    },
+    setClosingOrders: (state, action) => {
+      state.ClosingOrders = action.payload;
     },
   },
 });

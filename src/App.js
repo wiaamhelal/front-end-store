@@ -63,6 +63,8 @@ import BestSales from "./components/BestSales";
 import OurComunity from "./components/OurComunity";
 import TodayDeals from "./components/TodayDeals";
 import DiscountProductAd24Hours from "./components/DiscountProductAd24Hours";
+import ClosingPage from "./components/ClosingPage";
+import ClosingItem from "./components/ClosingItem";
 
 export const GetBasketTotal = (basket) => {
   return basket?.reduce((total, current) => {
@@ -545,6 +547,22 @@ function App() {
           element={
             <>
               <Header /> <DiscountProductAd24Hours />
+            </>
+          }
+        />
+        <Route
+          path="/closing-page"
+          element={
+            <>
+              <Header /> <ClosingPage />
+            </>
+          }
+        />
+        <Route
+          path="/closing-item/:id"
+          element={
+            <>
+              <Header /> <ClosingItem />
             </>
           }
         />

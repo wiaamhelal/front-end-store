@@ -89,7 +89,7 @@ const TodayDeals = () => {
               <PostItem post={item?.order} key={item?.order?._id} />
             ))
           ) : (
-            <p className="text-center mt-4">لا توجد منتجات اليوم</p>
+            <h1 className="text-center mt-4">No Deals For Today</h1>
           )}
         </div>
 

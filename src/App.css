@@ -697,7 +697,7 @@ transform: translateY(-13px);
     /* content: "0"counter(services); */
     content: "";
     position: absolute;
-    width: 81px;
+    width: 110px;
     background-color: #357ae8;
     height: 100%;
     justify-content: center;
@@ -709,16 +709,14 @@ transform: translateY(-13px);
 }
 .services .container .box .info::before{
     content: "";
-    width: 48px;
+    width: 41px;
     height: 100%;
     background-color: #c3c3c3;
-    left: 66px;
+    left: 90px;
     position: absolute;
     transform: skewX(-30deg);
     z-index: 1;
 }
-
-
 
 /*start animation*/
 @keyframes up-and-dwon{

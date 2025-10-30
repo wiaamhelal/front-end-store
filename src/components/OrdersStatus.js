@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import BasketItem from "./BasketItem";
-import formatCurrency from "./FormatCurrency";
 import moment from "moment/moment";
-import { GetBasketTotal } from "../App";
+import swal from "sweetalert";
 import {
   getUserProfile,
   setUserOrdersApi,
 } from "../redux/apiCalls/profileApiCall";
 import {
+  closingOrdersApi,
   getAllOrdersApi,
   getMaxAllOrdersApi,
   getOrdersCountApi,
+  paymentOrderApi,
   updateOrderStatusApi,
 } from "../redux/apiCalls/postApiCall";
 import Paganation from "./Paganation";
@@ -25,7 +26,10 @@ const OrdersStatus = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { profile } = useSelector((state) => state.profile);
+  const { payment } = useSelector((state) => state.post);
   const [orderStatus, setorderStatus] = useState("");
+  // const [closeToggle, setCloseToggle] = useState(false);
+  const [openPaymentId, setOpenPaymentId] = useState(null);
   useEffect(() => {
     dispatch(getUserProfile(user._id));
     dispatch(getOrdersCountApi());
@@ -36,15 +40,9 @@ const OrdersStatus = () => {
   const [search, setsearch] = useState("");
 
   const [currentPage, setcurrentPage] = useState(1);
+  const [paymentState, setPaymentState] = useState();
   const pages = Math.ceil(ordersCount / POST_PER_PAGE);
   let status = orders;
-  useEffect(() => {
-    dispatch(getAllOrdersApi(currentPage));
-    dispatch(getMaxAllOrdersApi());
-    if (search !== "") {
-      status = allMaxOrders;
-    }
-  }, [currentPage, search]);
 
   const submitSerch = () => {
     // e.preventDefault();
@@ -56,12 +54,46 @@ const OrdersStatus = () => {
     await dispatch(
       updateOrderStatusApi({ orderStatus: orderStatus }, item._id)
     );
-    window.location.reload(false);
+    window.location.reload();
+  };
+
+  const submitPayment = (id, payment) => {
+    dispatch(paymentOrderApi({ payment }, id));
+  };
+  useEffect(() => {
+    dispatch(getAllOrdersApi(currentPage));
+    dispatch(getMaxAllOrdersApi());
+    if (search !== "") {
+      status = allMaxOrders;
+    }
+  }, [currentPage, search, allMaxOrders]);
+  // console.log(payment);
+  console.log(allMaxOrders);
+
+  const closeForToday = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once you close, you will not be able to come back!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((yes) => {
+      if (yes) {
+        dispatch(closingOrdersApi({ products: allMaxOrders }));
+        // window.location.reload(false);
+      }
+    });
   };
 
   return (
     <Holder>
-      {orders ? (
+      {orders.length > 0 && (
+        <button className="btn btn-success mt-2 ms-2" onClick={closeForToday}>
+          close for today
+        </button>
+      )}
+
+      {Array.isArray(orders) && (
         <Main className="container">
           <Comments>
             <form>
@@ -100,7 +132,7 @@ const OrdersStatus = () => {
                   <h4 className="fw-bold text-secondary mt-4">
                     Total Price :{" "}
                     {/* {formatCurrency(GetBasketTotal(item?.orderDetails))} */}
-                    {totalPrice}
+                    {item?.totalPrice}
                   </h4>
                   <h4 className="fw-bold text-secondary mt-4">
                     Order Time :{" "}
@@ -142,8 +174,48 @@ const OrdersStatus = () => {
                       >
                         submit
                       </button>
+                      {item?.orderStatus === "receved" && (
+                        <>
+                          {item?.payment === "unpaid" && (
+                            <button
+                              className="btn btn-success btn-sm ms-3"
+                              onClick={() => setOpenPaymentId(item._id)}
+                            >
+                              Payment
+                            </button>
+                          )}
+                          {item?.payment === "cash" && (
+                            <button
+                              className="btn btn-success btn-sm ms-3"
+                              onClick={() => setOpenPaymentId(item._id)}
+                              disabled={true}
+                            >
+                              Cash
+                            </button>
+                          )}
+                          {item?.payment === "visa" && (
+                            <button
+                              className="btn btn-success btn-sm ms-3"
+                              onClick={() => setOpenPaymentId(item._id)}
+                              disabled={true}
+                            >
+                              Visa
+                            </button>
+                          )}
+                          {item?.payment === "credit" && (
+                            <button
+                              className="btn btn-success btn-sm ms-3"
+                              onClick={() => setOpenPaymentId(item._id)}
+                              disabled={true}
+                            >
+                              Credit
+                            </button>
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
+
                   {item?.orderStatus === "receved" && (
                     <h4 className="text-success mt-3">
                       the order has been reseved
@@ -190,29 +262,114 @@ const OrdersStatus = () => {
                   <h4 className="fw-bold text-secondary mt-4">
                     Delever to : {profile?.location?.building}
                   </h4>
+                  <CloseToggle>
+                    <div
+                      className="modal align-items-center justify-content-center"
+                      tabindex="-1"
+                      style={
+                        openPaymentId === item._id
+                          ? { display: "flex ", background: "#0000005e" }
+                          : { display: "none" }
+                      }
+                    >
+                      <div
+                        className="modal-dialog"
+                        style={{ animation: "fade 0.5s" }}
+                      >
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title">
+                              After you take this step there is no coming back
+                            </h5>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                              onClick={() => setOpenPaymentId(null)}
+                            ></button>
+                          </div>
+                          {/* <div className="modal-body">
+                <p className=" lh-md text-center">
+                  do you need the ad for one day or unlimited time (one day it
+                  will delete after 24 hours)
+                </p>
+              </div> */}
+                          <div className="modal-footer d-flex justify-content-between">
+                            <button
+                              type="button"
+                              className="btn btn-success rounded-pill"
+                              data-bs-dismiss="modal"
+                              // onClick={() => {
+                              //   setPayment("cash");
+                              //   dispatch(
+                              //     paymentOrderApi(
+                              //       { payment: "calsh" },
+                              //       item._id
+                              //     )
+                              //   );
+                              //   setCloseToggle(false);
+                              // }}
+                              onClick={() => {
+                                submitPayment(openPaymentId, "cash");
+                                setOpenPaymentId(null);
+                              }}
+                            >
+                              Cash
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-success rounded-pill"
+                              onClick={() => {
+                                submitPayment(openPaymentId, "visa");
+                                setOpenPaymentId(null);
+                              }}
+                            >
+                              Visa
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-success rounded-pill"
+                              onClick={() => {
+                                submitPayment(openPaymentId, "credit");
+                                setOpenPaymentId(null);
+                              }}
+                            >
+                              Credit
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CloseToggle>
                 </div>
               ))}{" "}
           </div>
 
           <div className="col-12 mt-3">
             {/* {posts?.length > 2 && ( */}
-            <Paganation
-              currentPage={currentPage}
-              setcurrentPage={setcurrentPage}
-              pages={pages}
-            />
+            {orders.length > 0 && (
+              <Paganation
+                currentPage={currentPage}
+                setcurrentPage={setcurrentPage}
+                pages={pages}
+              />
+            )}
+
             {/* )} */}
+            {orders.length === 0 && (
+              <h1 className="fw-bold text-secondary text-center">
+                {" "}
+                you have no orders !
+              </h1>
+            )}
           </div>
         </Main>
-      ) : (
-        <h1 className="fw-bold text-secondary text-center">
-          {" "}
-          you have no orders !
-        </h1>
       )}
     </Holder>
   );
 };
+
 const Holder = styled.div`
   overflow: hidden;
   padding-top: 80px;
@@ -275,4 +432,22 @@ const Comments = styled.div`
     border-left: none;
   }
 `;
+
+const CloseToggle = styled.div`
+  & .my-form {
+    display: flex;
+    flex-direction: column;
+    & .input {
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      display: block;
+      width: 100%;
+      resize: none;
+      margin-bottom: 10px;
+    }
+  }
+`;
+
 export default OrdersStatus;
