@@ -40,7 +40,7 @@ const OrdersStatus = () => {
   const [search, setsearch] = useState("");
 
   const [currentPage, setcurrentPage] = useState(1);
-  const [paymentState, setPaymentState] = useState();
+  const [canceledItem, setCanceledItems] = useState({});
   const pages = Math.ceil(ordersCount / POST_PER_PAGE);
   let status = orders;
 
@@ -51,6 +51,11 @@ const OrdersStatus = () => {
   };
 
   const submitStatus = async (item) => {
+    if (orderStatus == "canceled") {
+      setCanceledItems(item);
+      return setCancelToggle(true);
+    }
+
     await dispatch(
       updateOrderStatusApi({ orderStatus: orderStatus }, item._id)
     );
@@ -68,7 +73,6 @@ const OrdersStatus = () => {
     }
   }, [currentPage, search, allMaxOrders]);
   // console.log(payment);
-  console.log(allMaxOrders);
 
   const closeForToday = () => {
     swal({
@@ -84,21 +88,67 @@ const OrdersStatus = () => {
       }
     });
   };
+  // let disabled = false;
+  // useEffect(() => {
+  //   allMaxOrders.map((item) =>
+  //     item.payment === "unpaid" ? (disabled = true) : (disabled = false)
+  //   );
+  // }, []);
 
+  const [disabled, setDisabled] = useState(false);
+  const [cancelToggle, setCancelToggle] = useState(false);
+  const [cancelReason, setCancelReason] = useState("");
+
+  useEffect(() => {
+    // إذا وُجد أي عنصر غير مدفوع، عطّل الزر
+    const hasUnpaid = allMaxOrders.some((item) => item.payment === "unpaid");
+    setDisabled(hasUnpaid);
+  }, [allMaxOrders]);
+
+  console.log(disabled);
+  console.log(allMaxOrders);
+
+  const SubmitCancel = () => {
+    return swal({
+      title: "Are you sure?",
+      text: "Once you cancel, you will not be able to come back!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (yes) => {
+      if (yes) {
+        await dispatch(
+          updateOrderStatusApi(
+            { orderStatus: orderStatus, CancelReason: cancelReason },
+            canceledItem._id
+          )
+        );
+        await dispatch(
+          paymentOrderApi({ payment: "canceled" }, canceledItem._id)
+        );
+        setCancelToggle(false);
+        setCancelReason("");
+      }
+    });
+  };
+
+  const handleCheck = (value) => {
+    if (cancelReason === value) {
+      setCancelReason(null); // إلغاء التحديد إذا ضغط نفس الخيار
+    } else {
+      setCancelReason(value); // تحديد الخيار المختار
+    }
+  };
   return (
     <Holder>
       {orders.length > 0 && (
-        <>
-          {orders.map((item) => (
-            <button
-              className="btn btn-success mt-2 ms-2"
-              onClick={closeForToday}
-              disabled={item.payment == "unpaid"}
-            >
-              close for today
-            </button>
-          ))}
-        </>
+        <button
+          className="btn btn-success mt-2 ms-2"
+          onClick={closeForToday}
+          disabled={disabled}
+        >
+          close for today
+        </button>
       )}
 
       {Array.isArray(orders) && (
@@ -166,6 +216,7 @@ const OrdersStatus = () => {
                         <option value="on the way">on the way</option>
                         <option value="receved">receved</option>
                         <option
+                          onClick={SubmitCancel}
                           value="canceled"
                           disabled={item?.orderStatus === "confirmid"}
                         >
@@ -374,6 +425,94 @@ const OrdersStatus = () => {
           </div>
         </Main>
       )}
+      <UbdatePassword>
+        <div
+          className="modal align-items-center justify-content-center"
+          tabindex="-1"
+          style={
+            cancelToggle
+              ? { display: "flex ", background: "#0000005e" }
+              : { display: "none" }
+          }
+        >
+          <div className="modal-dialog" style={{ animation: "fade 0.5s" }}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  Why do wanna cancel this order ?
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setCancelToggle(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <div className="d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="outofstock"
+                    className="me-2"
+                    onChange={() => handleCheck("out of stock")}
+                    checked={cancelReason === "out of stock"}
+                  />
+                  <label
+                    htmlFor="outofstock"
+                    className="mb-1"
+                    style={{ cursor: "pointer" }}
+                  >
+                    out of stock
+                  </label>
+                </div>
+                <div className="d-flex align-items-center">
+                  <input
+                    type="checkbox"
+                    id="chagehismind"
+                    className="me-2"
+                    onChange={() => handleCheck("customer chage his mind")}
+                    checked={cancelReason === "customer chage his mind"}
+                  />
+                  <label
+                    htmlFor="chagehismind"
+                    className="mb-1"
+                    style={{ cursor: "pointer" }}
+                  >
+                    customer chage his mind
+                  </label>
+                </div>
+                <label className="mb-1">Other reason</label>
+                <textarea
+                  className="inputs"
+                  onChange={(e) => handleCheck(e.target.value)}
+                  disabled={
+                    cancelReason === "customer chage his mind" ||
+                    cancelReason === "out of stock"
+                  }
+                />
+              </div>
+              <div className="modal-footer d-flex justify-content-between">
+                <button
+                  type="button"
+                  className="btn btn-success rounded-pill"
+                  data-bs-dismiss="modal"
+                  onClick={() => setCancelToggle(false)}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success rounded-pill"
+                  onClick={SubmitCancel}
+                >
+                  Cinfirm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </UbdatePassword>
     </Holder>
   );
 };
@@ -442,6 +581,22 @@ const Comments = styled.div`
 `;
 
 const CloseToggle = styled.div`
+  & .my-form {
+    display: flex;
+    flex-direction: column;
+    & .input {
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      display: block;
+      width: 100%;
+      resize: none;
+      margin-bottom: 10px;
+    }
+  }
+`;
+const UbdatePassword = styled.div`
   & .my-form {
     display: flex;
     flex-direction: column;
