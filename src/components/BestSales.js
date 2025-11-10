@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 const BestSales = () => {
   const { categories } = useSelector((state) => state.category);
   const { orders, allMaxOrders, maxPosts } = useSelector((state) => state.post);
-  console.log(maxPosts);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fitchAllCategories());

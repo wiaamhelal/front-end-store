@@ -32,7 +32,7 @@ const Payment = () => {
     dispatch(postActions.clearBasket());
     // window.location.reload(false);
   };
-  console.log(basket);
+
   return (
     <Holder>
       <Main className="container text-color ">

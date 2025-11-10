@@ -1,28 +1,3 @@
-// import React from "react";
-// import ClosingDetails from "./ClosingDetails";
-// import { useParams } from "react-router-dom";
-
-// const ClosingItem = () => {
-//   const { closing } = useParams();
-//   return (
-//     <div className="details">
-//       <h1 className="fw-bold text-center mb-3">
-//         {new Date(closing?.date).toLocaleDateString()}{" "}
-//       </h1>
-//       {closing?.products?.map((p, i) => (
-//         <div key={i} className="product-item">
-//           {/* <span>{p?.title}</span>
-//          <span>{p?.payment}</span>
-//          <span>× {p?.totalPrice}</span> */}
-//           <ClosingDetails expandedOrders={p} />
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ClosingItem;
-
 import React from "react";
 import ClosingDetails from "./ClosingDetails";
 import { useLocation, useNavigate } from "react-router-dom";

@@ -20,7 +20,7 @@ const BranchProducts = () => {
   const theRightAd = postsAd.filter(
     (item) => item?.order?.mainCategory === filterdcate[0]?.mainTitle
   );
-  console.log(theRightAd);
+
   return (
     <Holder>
       <BoxesHolder className="">

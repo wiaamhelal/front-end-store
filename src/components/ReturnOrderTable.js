@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import ToggleResponceRejected from "./ToggleResponceRejected";
 
 const ReturnOrderTable = () => {
-  const [toggle, settoggle] = useState(false);
+  const [toggle, settoggle] = useState(null);
   const { returnOrdes } = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
@@ -28,6 +28,9 @@ const ReturnOrderTable = () => {
   useEffect(() => {
     dispatch(getRetunedOrdersApi());
   }, [returnOrdes]);
+  useEffect(() => {
+    dispatch(getRetunedOrdersApi());
+  }, []);
 
   return (
     <Holder>
@@ -81,29 +84,38 @@ const ReturnOrderTable = () => {
               <img className="return-img" src={item.images[2].url} alt="" />
             </div>
           </div>
-          <div style={{ marginTop: "15px" }}>
-            <button
-              className="return-button btn btn-danger btn-sm"
-              onClick={() => settoggle(true)}
-            >
-              decline
-            </button>
-            <button
-              onClick={() =>
-                approveReturn(
-                  item?.user?.email,
-                  item?.order?.title,
-                  item?.order?.price,
-                  item._id
-                )
-              }
-              style={{ right: "90px" }}
-              className="return-button btn btn-success btn-sm"
-            >
-              approve
-            </button>
-          </div>
-          {toggle && (
+          {item.returnStatus === "rejected" && (
+            <h4 className="text-danger">rejected</h4>
+          )}
+          {item.returnStatus === "aproved" && (
+            <h4 className="text-success">aproved</h4>
+          )}
+          {!item.returnStatus && (
+            <div style={{ marginTop: "15px" }}>
+              <button
+                className="return-button btn btn-danger btn-sm"
+                onClick={() => settoggle(item._id)}
+              >
+                decline
+              </button>
+              <button
+                onClick={() =>
+                  approveReturn(
+                    item?.user?.email,
+                    item?.order?.title,
+                    item?.order?.price,
+                    item._id
+                  )
+                }
+                style={{ right: "90px" }}
+                className="return-button btn btn-success btn-sm"
+              >
+                approve
+              </button>
+            </div>
+          )}
+
+          {toggle === item._id && (
             <ToggleResponceRejected
               toggle={toggle}
               settoggle={settoggle}

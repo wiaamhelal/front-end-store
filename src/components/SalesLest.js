@@ -1,9 +1,13 @@
 import FormatCurrency from "./FormatCurrency";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllClosingOrdersApi } from "../redux/apiCalls/postApiCall";
 
 const SalesLest = () => {
-  const { orders, allMaxOrders } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  const { orders, allMaxOrders, ClosingOrders } = useSelector(
+    (state) => state.post
+  );
   const { categories } = useSelector((state) => state.category);
 
   // إنشاء مجموعة (Set) للاحتفاظ فقط بـ `mainTitle` الفريد
@@ -17,10 +21,13 @@ const SalesLest = () => {
     }
     return false;
   });
-
+  useEffect(() => {
+    dispatch(getAllClosingOrdersApi());
+  }, []);
+  const allClosingOrders = ClosingOrders.flatMap((item) => item.products);
   // تعديل handleItem لإرجاع chosenItem و totalPrice
   const handleItem = (item) => {
-    const chosenItem = allMaxOrders.filter(
+    const chosenItem = allClosingOrders.filter(
       (order) => order?.orderDetails[0]?.mainCategory === item
     );
 
@@ -36,7 +43,7 @@ const SalesLest = () => {
       {filteredItems.map((item) => {
         const { chosenItem, totalPrice } = handleItem(item?.mainTitle);
         const sold = chosenItem.length;
-        const percent = Math.round((sold / allMaxOrders.length) * 100);
+        const percent = Math.round((sold / allClosingOrders.length) * 100);
 
         // لو حابب تحسب النسبة مثلاً بناءً على أعلى مبيعات
         // تقدر تضيف منطق هنا بدل الرقم الثابت 98 أو 78

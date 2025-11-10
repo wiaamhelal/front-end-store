@@ -12,7 +12,6 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
   // };
   // fitshPosts();
 
-  console.log(id);
   const { categories } = useSelector((state) => state.category);
   const [title, settitle] = useState();
   const [description, setdescription] = useState();
@@ -22,7 +21,6 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
 
   //post?.oldPrice === null ? null : post?.oldPrice[1]
   const [changePrice, setchangePrice] = useState();
-  console.log(categories);
 
   // const updatePost = async (e) => {
   //   e.preventDefault();

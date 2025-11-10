@@ -154,7 +154,7 @@ const MainDashboard = () => {
             Check orders status
           </Link>{" "}
         </div>
-        <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
+        {/* <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
           <div className="d-flex align-itmes-center justify-content-between">
             <h4>return request</h4>
             <h5>{returnOrdes?.length}</h5>
@@ -172,7 +172,7 @@ const MainDashboard = () => {
           >
             Check return requests
           </Link>{" "}
-        </div>
+        </div> */}
         <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
           <div className="d-flex align-itmes-center justify-content-between">
             <h4>Create new cateogry</h4>
@@ -299,16 +299,16 @@ const MainDashboard = () => {
             />
           </div>
           <Link
-            to="/closing-page"
+            to="/accountant-page"
             className="btn btn-success btn-sm w-100 fw-bold"
           >
             Accountant Page
           </Link>{" "}
         </div>
-        <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
+        {/* <div className="col-12 col-sm-6 col-md-3 shadow rounded p-3 bg-white">
           <div className="d-flex align-itmes-center justify-content-between">
             <h4>Owner Page</h4>
-            {/* <h5>{productad?.length}</h5> */}
+            {/* <h5>{productad?.length}</h5> 
           </div>
           <div className="d-flex justify-content-center">
             <img
@@ -318,12 +318,12 @@ const MainDashboard = () => {
             />
           </div>
           <Link
-            to="/closing-page"
+            to="/owner-page"
             className="btn btn-success btn-sm w-100 fw-bold"
           >
             Owner Page
-          </Link>{" "}
-        </div>
+          </Link>
+        </div> */}
       </div>
       {/* <div
         className="the-form shadow mt-5 p-3 rounded m-auto bg-white"

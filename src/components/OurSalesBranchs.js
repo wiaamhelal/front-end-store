@@ -1,13 +1,17 @@
 import FormatCurrency from "./FormatCurrency";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getAllClosingOrdersApi } from "../redux/apiCalls/postApiCall";
 
 const OurSalesBranchs = () => {
-  const { orders, allMaxOrders } = useSelector((state) => state.post);
+  const { orders, allMaxOrders, ClosingOrders } = useSelector(
+    (state) => state.post
+  );
   const { categories } = useSelector((state) => state.category);
   const navicate = useNavigate();
+  const dispatch = useDispatch();
   // إنشاء مجموعة (Set) للاحتفاظ فقط بـ `mainTitle` الفريد
   const uniqueMainTitles = new Set();
 
@@ -19,10 +23,13 @@ const OurSalesBranchs = () => {
     }
     return false;
   });
-
+  useEffect(() => {
+    dispatch(getAllClosingOrdersApi());
+  }, []);
+  const allClosingOrders = ClosingOrders.flatMap((item) => item.products);
   // تعديل handleItem لإرجاع chosenItem و totalPrice
   const handleItem = (item) => {
-    const chosenItem = allMaxOrders.filter(
+    const chosenItem = allClosingOrders.filter(
       (order) => order?.orderDetails[0]?.category === item
     );
 
@@ -34,7 +41,7 @@ const OurSalesBranchs = () => {
   };
   const { mainTitle } = useParams();
   const myMainCate = categories.filter((item) => item.mainTitle == mainTitle);
-  const myMainOrders = allMaxOrders.filter(
+  const myMainOrders = allClosingOrders.filter(
     (item) => item.orderDetails[0]?.mainCategory === mainTitle
   );
 

@@ -40,7 +40,7 @@ const CreatePost = () => {
     setcolors([...colors, color]);
     setcolor("");
   };
-  console.log(premium);
+
   const submitCreatepost = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -104,7 +104,7 @@ const CreatePost = () => {
     },
   ];
   const AvailableSizes = ["S", "M", "L", "XL", "XXL", "XXXL"];
-  console.log(colors);
+
   return (
     <Holder className="container">
       <Main>

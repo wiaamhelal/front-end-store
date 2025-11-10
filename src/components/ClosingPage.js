@@ -18,24 +18,9 @@ const ClosingPage = () => {
   useEffect(() => {
     dispatch(getAllClosingOrdersApi());
   }, []);
-  // console.log(ClosingOrders);
+
   return (
     <Main className=" mt-5 pt-5">
-      {/* {ClosingOrders.map((closing, index) => (
-        <div key={index} className="holder"> */}
-      {/* <div
-            className="closing-box"
-            onClick={() => setExpanded(expanded === index ? null : index)}
-          >
-            <h3>{new Date(closing.date).toLocaleDateString()}</h3>
-            <p>نقدًا: {closing.totalCash.toFixed(2)}</p>
-            <p>فيزا: {closing.totalVisa.toFixed(2)}</p>
-            <p>كريدت: {closing.totalCredit.toFixed(2)}</p>
-            <div className="info d-flex align-items-center justify-content-between">
-              <span className="first-span">2323</span>
-              <span className="second-span">{FormatCurrency(33434)}</span>
-            </div>
-          </div> */}
       <div class="services" id="services">
         <div class="container">
           {ClosingOrders.map((closing, index) => (

@@ -65,6 +65,9 @@ import TodayDeals from "./components/TodayDeals";
 import DiscountProductAd24Hours from "./components/DiscountProductAd24Hours";
 import ClosingPage from "./components/ClosingPage";
 import ClosingItem from "./components/ClosingItem";
+import OwnerPage from "./components/AccountantPage";
+import CanceledOrders from "./components/CanceledOrders";
+import AccountantPage from "./components/AccountantPage";
 
 export const GetBasketTotal = (basket) => {
   return basket?.reduce((total, current) => {
@@ -415,7 +418,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/retun-order"
+          path="/retun-order"
           element={
             <>
               <Header /> <ReturnOrderTable />
@@ -563,6 +566,22 @@ function App() {
           element={
             <>
               <Header /> <ClosingItem />
+            </>
+          }
+        />
+        <Route
+          path="/accountant-page"
+          element={
+            <>
+              <Header /> <AccountantPage />
+            </>
+          }
+        />
+        <Route
+          path="/canceled-orders"
+          element={
+            <>
+              <Header /> <CanceledOrders />
             </>
           }
         />

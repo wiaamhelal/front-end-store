@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { sendEmailRejectReturnApi } from "../redux/apiCalls/postApiCall";
-import { useDispatch } from "react-redux";
+import {
+  getRetunedOrdersApi,
+  sendEmailCinfirmReturnApi,
+  sendEmailRejectReturnApi,
+} from "../redux/apiCalls/postApiCall";
+import { useDispatch, useSelector } from "react-redux";
 import swal from "sweetalert";
 
 const ToggleResponceRejected = ({ toggle, settoggle, item }) => {
   const [selected, setSelected] = useState(null);
+  const { returnOrdes } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRetunedOrdersApi());
+  }, []);
 
   const handleCheck = (value) => {
     if (selected === value) {
@@ -16,7 +24,7 @@ const ToggleResponceRejected = ({ toggle, settoggle, item }) => {
     }
   };
 
-  const diclineReturn = (userEmail, orderName, returnReason, id) => {
+  const diclineReturn = () => {
     swal({
       title: "Are you sure?",
       text: "are you sure you want to dicline this order!",
@@ -26,9 +34,14 @@ const ToggleResponceRejected = ({ toggle, settoggle, item }) => {
     }).then((willDelete) => {
       if (willDelete) {
         dispatch(
-          sendEmailRejectReturnApi({ userEmail, orderName, returnReason, id })
+          sendEmailRejectReturnApi({
+            userEmail: item.user.email,
+            orderName: item.title,
+            returnReason: selected,
+            id: item._id,
+          })
         );
-        settoggle(false);
+        settoggle(null);
       }
     });
   };
@@ -52,7 +65,7 @@ const ToggleResponceRejected = ({ toggle, settoggle, item }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={() => settoggle(false)}
+                onClick={() => settoggle(null)}
               ></button>
             </div>
             <div className="modal-body">
@@ -129,14 +142,14 @@ const ToggleResponceRejected = ({ toggle, settoggle, item }) => {
               <button
                 type="button"
                 className="btn btn-success rounded-pill"
-                onClick={() =>
-                  diclineReturn(
-                    item?.user?.email,
-                    item?.order?.title,
-                    selected,
-                    item?._id
-                  )
-                }
+                onClick={dispatch(
+                  sendEmailCinfirmReturnApi({
+                    userEmail: item.user.email,
+                    orderName: item.title,
+                    returnReason: selected,
+                    id: item._id,
+                  })
+                )}
               >
                 Confirm
               </button>

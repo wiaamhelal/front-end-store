@@ -10,7 +10,6 @@ const ClosingDetails = ({ expandedOrders }) => {
   const { profile } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  console.log(expandedOrders);
   let item = expandedOrders;
   return (
     <Holder>

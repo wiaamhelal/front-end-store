@@ -10,6 +10,7 @@ import {
   setUserOrdersApi,
 } from "../redux/apiCalls/profileApiCall";
 import {
+  getAllClosingOrdersApi,
   getAllOrdersApi,
   getMaxAllOrdersApi,
   getOrdersCountApi,
@@ -19,7 +20,7 @@ import Paganation from "./Paganation";
 import { Link, useParams } from "react-router-dom";
 
 const OurSalesProducts = () => {
-  const { orders, ordersCount, allMaxOrders } = useSelector(
+  const { orders, ordersCount, allMaxOrders, ClosingOrders } = useSelector(
     (state) => state.post
   );
 
@@ -58,8 +59,12 @@ const OurSalesProducts = () => {
     );
     window.location.reload(false);
   };
+  useEffect(() => {
+    dispatch(getAllClosingOrdersApi());
+  }, []);
+  const allClosingOrders = ClosingOrders.flatMap((item) => item.products);
   const { orderItem } = useParams();
-  const myOrders = allMaxOrders.filter(
+  const myOrders = allClosingOrders.filter(
     (item) => item.orderDetails[0].category === orderItem
   );
 
@@ -109,7 +114,7 @@ const OurSalesProducts = () => {
                     Order Time :{" "}
                     {moment(item?.createdAt).format("MMMM DD  h:mma")}
                   </h4>
-                  <div className="d-flex align-items-center mt-4">
+                  {/* <div className="d-flex align-items-center mt-4">
                     <h4 className="fw-bold text-secondary me-3">
                       order status:
                     </h4>
@@ -146,7 +151,7 @@ const OurSalesProducts = () => {
                         submit
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                   {item?.orderStatus === "receved" && (
                     <h4 className="text-success mt-3">
                       the order has been reseved

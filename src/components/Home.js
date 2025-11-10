@@ -46,7 +46,6 @@ const Home = () => {
     dispatch(getAllProuctsAdsApi());
     dispatch(fetchMaxPosts());
   }, []);
-  console.log(postsAd);
 
   return (
     <Main className="text-dark">
@@ -136,8 +135,9 @@ const Home = () => {
       </div>
       <div style={{ overflowX: "auto", marginBottom: "40px" }}>
         <BoxesHolder className="my-container ">
-          {postsAd?.slice(-4).map((item) => (
+          {postsAd?.slice(-4).map((item, index) => (
             <div
+              key={index}
               className=" box shadow "
               onClick={() => navicate(`/posts/details/${item?.order?._id}`)}
             >
@@ -172,8 +172,9 @@ const Home = () => {
         className="my-container"
       >
         <div className="category row">
-          {productad.map((item) => (
+          {productad.map((item, index) => (
             <Link
+              key={index}
               className="child-cate col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
               to={`/products/main/${item?.category}`}
             >
@@ -228,8 +229,9 @@ const Home = () => {
       </Premium>
       <div style={{ overflowX: "auto", marginBottom: "20px" }}>
         <BoxesHolder className="my-container mt-4">
-          {postsAd?.slice(-8, -4).map((item) => (
+          {postsAd?.slice(-8, -4).map((item, index) => (
             <div
+              key={index}
               className=" box shadow "
               onClick={() => navicate(`/posts/details/${item?.order?._id}`)}
             >
@@ -287,8 +289,8 @@ const Home = () => {
         </h4>
         <div style={{ overflowX: "auto" }}>
           <div className="posts-container">
-            {filteredItems?.map((item) => (
-              <div>
+            {filteredItems?.map((item, index) => (
+              <div key={index}>
                 <img src={item?.images[1]?.url} alt="" />
                 <h5>{item?.branchTitle}</h5>
               </div>

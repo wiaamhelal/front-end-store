@@ -1,12 +1,17 @@
 import FormatCurrency from "./FormatCurrency";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getMaxAllOrdersApi } from "../redux/apiCalls/postApiCall";
+import {
+  getAllClosingOrdersApi,
+  getMaxAllOrdersApi,
+} from "../redux/apiCalls/postApiCall";
 
 const OurSales = () => {
-  const { orders, allMaxOrders } = useSelector((state) => state.post);
+  const { orders, allMaxOrders, ClosingOrders } = useSelector(
+    (state) => state.post
+  );
   const { categories } = useSelector((state) => state.category);
   const navicate = useNavigate();
   const dispatch = useDispatch();
@@ -21,10 +26,13 @@ const OurSales = () => {
     }
     return false;
   });
+  useEffect(() => {
+    dispatch(getAllClosingOrdersApi());
+  }, []);
+  const allClosingOrders = ClosingOrders.flatMap((item) => item.products);
 
-  // تعديل handleItem لإرجاع chosenItem و totalPrice
   const handleItem = (item) => {
-    const chosenItem = allMaxOrders.filter(
+    const chosenItem = allClosingOrders.filter(
       (order) => order?.orderDetails[0]?.mainCategory === item
     );
 
@@ -42,11 +50,7 @@ const OurSales = () => {
           {filteredItems.map((item) => {
             const { chosenItem, totalPrice } = handleItem(item?.mainTitle);
             const sold = chosenItem.length;
-            const percent = Math.round((sold / allMaxOrders.length) * 100);
-
-            // لو حابب تحسب النسبة مثلاً بناءً على أعلى مبيعات
-            // تقدر تضيف منطق هنا بدل الرقم الثابت 98 أو 78
-
+            const percent = Math.round((sold / allClosingOrders.length) * 100);
             return (
               <div
                 class="box"

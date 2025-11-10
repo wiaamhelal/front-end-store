@@ -12,7 +12,7 @@ const YourOrderItem = ({ item }) => {
   const { basket, totalPrice } = useSelector((state) => state.post);
 
   item.orderDetails.map((it) => {});
-  console.log(item);
+
   return (
     <div>
       <div className="order-item">

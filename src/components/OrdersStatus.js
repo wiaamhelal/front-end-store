@@ -505,6 +505,7 @@ const OrdersStatus = () => {
                   type="button"
                   className="btn btn-success rounded-pill"
                   onClick={SubmitCancel}
+                  disabled={!cancelReason}
                 >
                   Cinfirm
                 </button>

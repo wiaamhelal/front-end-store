@@ -26,7 +26,6 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
 
   const myPosts =
     Array.isArray(posts) && posts?.filter((item) => item?.user.id == user._id);
-  console.log(myPosts);
 
   useEffect(() => {
     dispatch(fetchAllPosts());
@@ -76,7 +75,7 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
     localStorage.setItem("lastPasswordChange", new Date().toISOString());
   };
   const lastChange = localStorage.getItem("lastPasswordChange");
-  console.log(lastChange);
+
   useEffect(() => {
     dispatch(getUserProfile(user?._id));
   }, [user._id]);

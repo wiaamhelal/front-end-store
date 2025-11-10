@@ -20,7 +20,6 @@ const Basket = () => {
   useEffect(() => {
     dispatch(postActions.setTotalPrice(formatCurrency(GetBasketTotal(basket))));
   }, [basket]);
-  console.log(totalPrice);
   const CobonCodeSubmit = (e) => {
     e.preventDefault();
     if (cobonCode == "h2") {

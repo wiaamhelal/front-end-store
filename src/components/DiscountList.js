@@ -15,7 +15,7 @@ const DiscountList = () => {
     dispatch(getAllAdsApi());
     dispatch(getAllProuctsAdsApi());
   }, []);
-  console.log(postsAd);
+
   return (
     <div>
       <h1 className=" mt-5 pt-3 mb-4 container">Categories AD</h1>
