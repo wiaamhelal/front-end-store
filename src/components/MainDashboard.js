@@ -73,7 +73,7 @@ const MainDashboard = () => {
           </div>
           <Link
             to="/dashboard/user-table"
-            className="btn btn-success btn-sm  w-100 fw-bold"
+            className="btn-success btn btn-sm  w-100 fw-bold"
           >
             see all users
           </Link>{" "}

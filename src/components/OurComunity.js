@@ -18,6 +18,7 @@ import {
 import FormatCurrency from "./FormatCurrency";
 import { createNewClinetComment } from "../redux/apiCalls/commentApiCall";
 import SalesLest from "./SalesLest";
+import brownImg from "../img/brownImg.jpg";
 
 const OurComunity = () => {
   // setTimeout(() => {
@@ -280,13 +281,10 @@ const OurComunity = () => {
         className="shadow-line-start"
         style={{ transform: "translateY(684px)" }}
       ></div>
-      <div className="progres-holder">
+      <div className="progres-holder text-dark">
         <div className="container">
           <h2 class="main-title">our sales</h2>
-          <img
-            src="https://media.licdn.com/dms/image/v2/D5612AQGXYr8XH3IPfQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1701797640305?e=2147483647&v=beta&t=elMXeTA21QTM3RwkmQvnOHcHHzZEWIeVH0Px7NHyK6s"
-            alt=""
-          />
+          <img src={brownImg} alt="" />
 
           <SalesLest />
         </div>
@@ -464,8 +462,8 @@ const Main = styled.div`
     transform: translateY(650px);
     & .percent {
       font-size: 13px;
-      color: #2196f3;
-      border: 1px solid #2196f3;
+      color: rgb(0, 0, 0);
+      border: 1px solid rgb(0, 0, 0);
       border-radius: 4px;
       padding: 1px 2px;
       font-weight: bold;
@@ -481,7 +479,7 @@ const Main = styled.div`
     }
   }
   & .progress {
-    background: #0d6efd52;
+    background: #0a0a0a52;
   }
 
   & .our-sales {

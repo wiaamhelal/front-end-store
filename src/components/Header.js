@@ -20,6 +20,10 @@ const Headerr = () => {
   // const coseNavbar = () => {
   //   setisOpen(false);
   // };
+  const closeMenu = () => {
+    const menu = document.getElementById("navbarSupportedContent");
+    menu.classList.remove("show");
+  };
   return (
     <Main className="">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark my-nav ">
@@ -58,33 +62,60 @@ const Headerr = () => {
                 </Link>
               )}
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">
+                <Link
+                  onClick={closeMenu}
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/"
+                >
                   Home
                 </Link>
               </li>
+              {user?.isAdmin && (
+                <li className="nav-item">
+                  <Link
+                    onClick={closeMenu}
+                    className="nav-link"
+                    to="/dashboard"
+                    tabindex="-1"
+                    aria-disabled="true"
+                  >
+                    Admin Dashboard
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
-                <Link className="nav-link" to="/our-comunity">
+                <Link
+                  onClick={closeMenu}
+                  className="nav-link"
+                  to="/our-comunity"
+                >
                   Our Community
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/best-sales">
+                <Link onClick={closeMenu} className="nav-link" to="/best-sales">
                   Best Sales
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/today-deals">
+                <Link
+                  onClick={closeMenu}
+                  className="nav-link"
+                  to="/today-deals"
+                >
                   Today's Deals
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/products2">
+                <Link onClick={closeMenu} className="nav-link" to="/products2">
                   Brouse
                 </Link>
               </li>
               {!user && (
                 <li className="nav-item dropdown">
                   <Link
+                    onClick={closeMenu}
                     className="nav-link dropdown-toggle"
                     to="#"
                     id="navbarDropdown"
@@ -99,12 +130,20 @@ const Headerr = () => {
                     aria-labelledby="navbarDropdown"
                   >
                     <li>
-                      <Link className="dropdown-item" to="/login">
+                      <Link
+                        onClick={closeMenu}
+                        className="dropdown-item"
+                        to="/login"
+                      >
                         Log in
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/register">
+                      <Link
+                        onClick={closeMenu}
+                        className="dropdown-item"
+                        to="/register"
+                      >
                         register
                       </Link>
                     </li>
@@ -123,18 +162,7 @@ const Headerr = () => {
                   </Link>
                 </li>
               )} */}
-              {user?.isAdmin && (
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="/dashboard"
-                    tabindex="-1"
-                    aria-disabled="true"
-                  >
-                    Admin Dashboard
-                  </Link>
-                </li>
-              )}
+
               {/* {user?.isAdmin && (
                 <li className="nav-item">
                   <Link
@@ -149,6 +177,7 @@ const Headerr = () => {
               )} */}
               <li className="nav-item">
                 <Link
+                  onClick={closeMenu}
                   className="nav-link"
                   to="/about"
                   tabindex="-1"
@@ -159,6 +188,7 @@ const Headerr = () => {
               </li>
               <li className="nav-item">
                 <Link
+                  onClick={closeMenu}
                   className="nav-link"
                   to="/contactus"
                   tabindex="-1"
@@ -169,6 +199,7 @@ const Headerr = () => {
               </li>
               <li className="nav-item">
                 <Link
+                  onClick={closeMenu}
                   className="nav-link"
                   to="/settings"
                   tabindex="-1"
@@ -180,6 +211,7 @@ const Headerr = () => {
               {profile?.orders && (
                 <li className="nav-item">
                   <Link
+                    onClick={closeMenu}
                     className="nav-link"
                     to="/orders"
                     tabindex="-1"
@@ -191,6 +223,7 @@ const Headerr = () => {
               )}
               <li className="nav-item dropdown">
                 <Link
+                  onClick={closeMenu}
                   className="nav-link dropdown-toggle"
                   to="#"
                   id="navbarDropdown"
@@ -209,6 +242,7 @@ const Headerr = () => {
               </li>
               <li className="nav-item">
                 <Link
+                  onClick={closeMenu}
                   className="nav-link"
                   to="/location"
                   tabindex="-1"
@@ -231,7 +265,10 @@ const Headerr = () => {
               </li> */}
               <Basket
                 className="mb-2 mb-md-0"
-                onClick={() => navicate("/basket")}
+                onClick={() => {
+                  navicate("/basket");
+                  closeMenu();
+                }}
               >
                 <img src={cardIcon} alt="" />
                 {basket.length ? <span>{basket?.length}</span> : null}

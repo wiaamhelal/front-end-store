@@ -149,21 +149,6 @@ function App() {
           : lightTheme
       }
     >
-      {/* <h2> {t("Welcome to React")}</h2>
-      <button
-        onClick={() => {
-          i18n.changeLanguage("ar");
-        }}
-      >
-        AR
-      </button>
-      <button
-        onClick={() => {
-          i18n.changeLanguage("en");
-        }}
-      >
-        EN
-      </button> */}
       {myLoadingApp && (
         <div className="holder-loading">
           <div className="loading-app">
