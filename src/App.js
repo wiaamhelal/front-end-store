@@ -68,6 +68,7 @@ import ClosingItem from "./components/ClosingItem";
 import OwnerPage from "./components/AccountantPage";
 import CanceledOrders from "./components/CanceledOrders";
 import AccountantPage from "./components/AccountantPage";
+import { Elements } from "@stripe/react-stripe-js";
 
 export const GetBasketTotal = (basket) => {
   return basket?.reduce((total, current) => {
@@ -116,7 +117,6 @@ function App() {
   // }, []);
 
   const [isDarkMode, setIsDarkMode] = useState(false);
-
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
     localStorage.setItem("theme", JSON.stringify(!isDarkMode));

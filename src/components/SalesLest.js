@@ -59,7 +59,7 @@ const SalesLest = () => {
               </div>
               <h4 className="percent">{percent} %</h4>
             </div>
-            <div className="progress  mb-3">
+            <div className="progress mb-3">
               <div
                 className="progress-bar progress-bar-striped bg-dark"
                 role="progressbar"

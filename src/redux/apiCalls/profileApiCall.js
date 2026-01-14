@@ -270,3 +270,45 @@ export function changeUserAuthApi(userId, isAdmin) {
     }
   };
 }
+
+// export function createPaymentIntentApi(totalPrice, setClientSecret) {
+//   return async (dispatch, getState) => {
+//     try {
+//       const res = await request.post(
+//         "/api/users/create-payment-intent",
+//         { amount: totalPrice },
+//         {
+//           headers: {
+//             Authorization: "Bearer " + getState().auth.user.token,
+//           },
+//         }
+//       );
+
+//       setClientSecret(res.data.clientSecret);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+// api/payment.js
+
+// export function createPaymentIntentApi(totalPrice, setClientSecret) {
+//   return async (dispatch, getState) => {
+//     try {
+//       const res = await request.post(
+//         `/payments/create?total=${totalPrice}`, // same endpoint as before
+//         {},
+//         {
+//           headers: {
+//             Authorization: "Bearer " + getState().auth.user.token,
+//           },
+//         }
+//       );
+
+//       setClientSecret(res.data.clientSecret);
+//     } catch (error) {
+//       console.error("Payment error:", error.response || error);
+//     }
+//   };
+// }
