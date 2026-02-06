@@ -221,7 +221,7 @@ const Headerr = () => {
                   </Link>
                 </li>
               )}
-              <li className="nav-item dropdown">
+              {/* <li className="nav-item dropdown">
                 <Link
                   onClick={closeMenu}
                   className="nav-link dropdown-toggle"
@@ -239,7 +239,7 @@ const Headerr = () => {
                     <TranslateWidget />
                   </li>
                 </ul>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Link
                   onClick={closeMenu}

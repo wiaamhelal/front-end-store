@@ -12,14 +12,15 @@ const LanguageSwitcher = () => {
   const reloud = () => {
     swal({
       title: "change the language?",
-      text: "if the language didnt changed try again",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        window.location.reload(false);
-      }
+      text: "if the language didnt changed reload the page and try again",
+      // icon: "warning",
+      // buttons: true,
+      // dangerMode: true,
+      // }).then((willDelete) => {
+      //   if (willDelete) {
+      //     window.location.reload();
+      //     window.location.replace(window.location.href);
+      //   }
     });
     // setTimeout(() => {
 

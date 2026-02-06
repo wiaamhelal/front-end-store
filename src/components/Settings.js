@@ -12,7 +12,11 @@ import {
 import { logoutUser } from "../redux/apiCalls/authApiCall";
 import { createNewClinetComment } from "../redux/apiCalls/commentApiCall";
 import { deletePostApi, fetchAllPosts } from "../redux/apiCalls/postApiCall";
+import LanguageSwitcher from "./LanguageSwitcher";
+import TranslateWidget from "./TranslateWedgit";
+import { useTranslation } from "react-i18next";
 const Settings = ({ toggleTheme, isDarkMode }) => {
+  const { t } = useTranslation();
   const { profile } = useSelector((state) => state.profile);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -111,6 +115,7 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
                 open and close the dark mode
               </span>
             </div>
+
             {/* <label for="toggle">
               <input
                 class="toggle-checkbox"
@@ -134,6 +139,37 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
               ></label>
             </div>
           </div>
+          <div className="d-flex align-items-start justify-content-between mb-4">
+            <div>
+              <span>Language</span>
+              {/* <span
+                class="d-block text-secondary mt-1"
+                style={{ fontSize: "14px" }}
+              >
+                English
+              </span> */}
+            </div>
+
+            <div className="nav-item dropdown">
+              <Link
+                className=" btn btn-success btn-sm"
+                to="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Change
+              </Link>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <LanguageSwitcher />
+                  <TranslateWidget />
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <div className="d-flex align-items-start ">
             <textarea
               onChange={(e) => setcomment(e.target.value)}
@@ -413,7 +449,7 @@ const Box = styled.div`
   background-color: white;
   & textarea {
     width: 100%;
-    min-height: 150px;
+    min-height: 120px;
     outline: none;
     resize: none;
     border: 1px solid #ccc;

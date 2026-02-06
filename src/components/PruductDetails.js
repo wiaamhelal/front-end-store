@@ -534,11 +534,18 @@ const ParamsComp = () => {
           </BrouseItems>
           <MoreImages>
             <h3 className="">From the manufacturer :</h3>
-            <div className="img-container">
+            {/* <div className="img-container">
               <img src={post?.images[1]?.url} alt="" />
               <img src={post?.images[2]?.url} alt="" />
               <img src={post?.images[3]?.url} alt="" />
               <img src={post?.images[4]?.url} alt="" />
+            </div> */}
+            <div className="img-container">
+              {post?.images
+                ?.slice(-4) // آخر 4 عناصر
+                .map((img, index) => (
+                  <img key={index} src={img.url} alt="" />
+                ))}
             </div>
           </MoreImages>
           <Rating className="mt-4">

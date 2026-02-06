@@ -76,7 +76,8 @@ function CheckoutForm() {
       <form onSubmit={handleSubmit}>
         <PaymentElement />
         <button
-          className="btn btn-success btn-sm mt-2"
+          style={{ width: "100%" }}
+          className="btn btn-primary btn-sm mt-2"
           disabled={loading || !stripe}
           type="submit"
         >

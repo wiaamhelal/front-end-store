@@ -19,11 +19,11 @@ const CreatePost = () => {
   const [desc, setdesc] = useState("");
   // const [category, setcategory] = useState("");
   const [selectedOption, setSelectedOption] = useState(null);
-  const [file, setfile] = useState("");
-  const [file2, setfile2] = useState("");
-  const [file3, setfile3] = useState("");
-  const [file4, setfile4] = useState("");
-  const [file5, setfile5] = useState("");
+  const [files, setfiles] = useState([]);
+  // const [file2, setfile2] = useState("");
+  // const [file3, setfile3] = useState("");
+  // const [file4, setfile4] = useState("");
+  // const [file5, setfile5] = useState("");
   const [productDetails, setproductDetails] = useState("");
   const [color, setcolor] = useState("");
   const [colors, setcolors] = useState([]);
@@ -46,7 +46,7 @@ const CreatePost = () => {
     const formData = new FormData();
 
     // Add multiple images
-    const files = [file, file2, file3, file4, file5]; // قائمة الملفات
+    // const files = [file, file2, file3, file4, file5]; // قائمة الملفات
     files.forEach((file) => {
       formData.append("images", file); // تأكد أن الاسم "images" مطابق للـ multer.array()
     });
@@ -132,7 +132,7 @@ const CreatePost = () => {
             ))}
           </select> */}
           {/* <SelectWithSearch /> */}
-          {/* <div className="w-64 mx-auto mt-10 mb-2">
+          <div className="w-64 mx-auto mt-10 mb-2">
             <Select
               options={options}
               value={selectedOption}
@@ -140,7 +140,7 @@ const CreatePost = () => {
               placeholder="Chose a category"
               isSearchable
             />
-          </div> */}
+          </div>
 
           <div className="d-flex align-items-center justify-content-between mb-2">
             <span>Available Sizes :</span>
@@ -174,39 +174,6 @@ const CreatePost = () => {
               </div>
             ))}
           </div>
-          {/* <div className="d-flex align-items-center mb-3">
-            <input
-              className="inputs m-0"
-              type="text"
-              placeholder="inter the product colors (add them one by one)"
-              onChange={(e) => setcolor(e.target.value)}
-              value={color}
-            />
-            <button
-              style={{ width: "117px" }}
-              className="btn btn-success btn-sm rouded-pill ms-3"
-              onClick={submitColor}
-            >
-              ad
-            </button>
-          </div>
-          <div>
-            {colors?.map((item, index) => (
-              <span className="me-3">
-                <span>{index + 1}- </span>
-                <span>{item}</span>
-              </span>
-            ))}
-          </div> */}
-          {/* <div className="w-64 mx-auto mt-10 mb-2">
-            <Select
-              options={sizeOptions}
-              value={colors}
-              onChange={setcolors}
-              placeholder="Chose Sizes"
-              isSearchable
-            />
-          </div> */}
           <div className="d-flex align-items-center mb-3">
             <input
               type="checkbox"
@@ -232,124 +199,31 @@ const CreatePost = () => {
             rows={5}
           />
           <input
+            style={{ display: "none" }}
             type="file"
+            multiple
+            accept="image/*"
             name="file"
             id="file"
-            className="d-none"
-            onChange={(e) => setfile(e.target.files[0])}
+            onChange={(e) => setfiles([...e.target.files])}
           />
           <label htmlFor="file" className="btn btn-success w-100 mb-3 mt-1">
-            Chose an image
+            Chose images
           </label>
           <div>
-            {file && (
-              <img
-                style={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  borderRadius: "10px",
-                }}
-                className="mb-3"
-                alt=""
-                src={URL.createObjectURL(file)}
-              />
-            )}
-          </div>
-          <input
-            type="file"
-            name="file2"
-            id="file2"
-            className="d-none"
-            onChange={(e) => setfile2(e.target.files[0])}
-          />
-          <label htmlFor="file2" className="btn btn-success w-100 mb-3 mt-1">
-            Chose an image2
-          </label>
-          <div>
-            {file2 && (
-              <img
-                style={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  borderRadius: "10px",
-                }}
-                className="mb-3"
-                alt=""
-                src={URL.createObjectURL(file2)}
-              />
-            )}
-          </div>
-          <input
-            type="file"
-            name="file3"
-            id="file3"
-            className="d-none"
-            onChange={(e) => setfile3(e.target.files[0])}
-          />
-          <label htmlFor="file3" className="btn btn-success w-100 mb-3 mt-1">
-            Chose an image3
-          </label>
-          <div>
-            {file3 && (
-              <img
-                style={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  borderRadius: "10px",
-                }}
-                className="mb-3"
-                alt=""
-                src={URL.createObjectURL(file3)}
-              />
-            )}
-          </div>
-          <input
-            type="file"
-            name="file4"
-            id="file4"
-            className="d-none"
-            onChange={(e) => setfile4(e.target.files[0])}
-          />
-          <label htmlFor="file4" className="btn btn-success w-100 mb-3 mt-1">
-            Chose an image4
-          </label>
-          <div>
-            {file4 && (
-              <img
-                style={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  borderRadius: "10px",
-                }}
-                className="mb-3"
-                alt=""
-                src={URL.createObjectURL(file4)}
-              />
-            )}
-          </div>
-          <input
-            type="file"
-            name="file5"
-            id="file5"
-            className="d-none"
-            onChange={(e) => setfile5(e.target.files[0])}
-          />
-          <label htmlFor="file5" className="btn btn-success w-100 mb-3 mt-1">
-            Chose an image5
-          </label>
-          <div>
-            {file5 && (
-              <img
-                style={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  borderRadius: "10px",
-                }}
-                className="mb-3"
-                alt=""
-                src={URL.createObjectURL(file5)}
-              />
-            )}
+            {files &&
+              files?.map((file) => (
+                <img
+                  style={{
+                    width: "100%",
+                    maxHeight: "250px",
+                    borderRadius: "10px",
+                  }}
+                  className="mb-3"
+                  alt=""
+                  src={URL.createObjectURL(file)}
+                />
+              ))}
           </div>
           <div className="">
             {loading ? (
@@ -368,7 +242,7 @@ const CreatePost = () => {
                 />
               </button>
             ) : (
-              <button className="btn btn-primary w-100">
+              <button className="btn btn-primary w-100 ">
                 Create The Product
               </button>
             )}

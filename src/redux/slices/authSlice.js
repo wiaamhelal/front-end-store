@@ -6,7 +6,7 @@ const authSlice = createSlice({
     //   ? JSON.parse(localStorage.getItem("userInfo"))
     //   : null,
     user: {
-      email: "test@gmail.com",
+      email: "wiaamhilal3@gmail.com",
       isAccountVerified: true,
       isAdmin: true,
       profilePhoto: {
