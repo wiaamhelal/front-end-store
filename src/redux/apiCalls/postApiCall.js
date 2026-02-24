@@ -400,7 +400,7 @@ export function AdFor24HoursApi(newad) {
         },
       });
 
-      toast.success("the ad has been added successfuly");
+      // toast.success("the ad has been added successfuly");
       dispatch(postActions.setIsPostCreated());
       setTimeout(() => dispatch(postActions.falseIsPostCreated()), 2000);
     } catch (error) {

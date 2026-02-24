@@ -248,9 +248,6 @@ const Headerr = () => {
                   tabindex="-1"
                   aria-disabled="true"
                 >
-                  {/* <span className="d-block" style={{ fontSize: "12px" }}>
-                    Delever to:
-                  </span> */}
                   {profile?.location
                     ? profile?.location?.city +
                       ", " +

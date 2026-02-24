@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { fetchSinglePost, updatePostText } from "../redux/apiCalls/postApiCall";
+import {
+  AdFor24HoursApi,
+  deleteProductAdApi,
+  fetchSinglePost,
+  getAllProuctsAdsApi,
+  updatePostText,
+} from "../redux/apiCalls/postApiCall";
+import DiscountProductAd24Hours from "./DiscountProductAd24Hours";
 
 const UpdatePost = ({ toggle, settoggle, id }) => {
   const dispatch = useDispatch();
   const { post } = useSelector((state) => state.post);
-  // const fitshPosts = async () => {
-  //   await dispatch(fetchSinglePost(id));
-  // };
-  // fitshPosts();
 
   const { categories } = useSelector((state) => state.category);
   const [title, settitle] = useState();
@@ -18,54 +21,49 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
   const [category, setcategory] = useState();
   const [price, setprice] = useState();
   const [dicountMount, setdiscountMount] = useState();
-
-  //post?.oldPrice === null ? null : post?.oldPrice[1]
+  const [discoutTime, setDiscoutTime] = useState("");
   const [changePrice, setchangePrice] = useState();
 
-  // const updatePost = async (e) => {
-  //   e.preventDefault();
-  //   let newPrice = price;
+  const { postsAd } = useSelector((state) => state.post);
+  useEffect(() => {
+    dispatch(getAllProuctsAdsApi());
+  }, []);
 
-  //   const discount = parseFloat(dicountMount); // تأكد من أنه رقم
+  const myAd = postsAd.filter(
+    (item) => item?.order?._id === "68ca8361ca7a857600bdd94d"
+  );
+  console.log(myAd[0]?._id);
+  const clearDiscountHandler = async (productId) => {
+    const myAd = postsAd.filter((item) => item?.order?._id === productId);
+    const adId = myAd[0]?._id;
+    try {
+      if (!post?.oldPrice || post.oldPrice.length === 0) {
+        toast.info("No discount to clear");
+        return;
+      }
 
-  //   if (!isNaN(discount) && discount > 0 && discount <= 100) {
-  //     newPrice = price - (price * discount) / 100;
-  //   }
+      const originalPrice = post.oldPrice[0];
 
-  //   if (dicountMount && post?.premium) {
-  //     return toast.error("no discout for premium products");
-  //   }
+      const payload = {
+        price: originalPrice,
+        oldPrice: [],
+      };
 
-  //   if (dicountMount >= 5) {
-  //     await dispatch(
-  //       updatePostText(
-  //         {
-  //           title,
-  //           description,
-  //           category,
-  //           price: newPrice,
-  //           oldPrice: [post?.price, discount],
-  //         },
-  //         post._id
-  //       )
-  //     );
-  //   } else {
-  //     await dispatch(
-  //       updatePostText(
-  //         {
-  //           title,
-  //           description,
-  //           category,
-  //           price: changePrice,
-  //           oldPrice: [],
-  //         },
-  //         post._id
-  //       )
-  //     );
-  //   }
-  //   settoggle(false);
-  //   window.location.reload();
-  // };
+      await dispatch(updatePostText(payload, post._id));
+      await dispatch(fetchSinglePost(post._id));
+      await dispatch(deleteProductAdApi(adId));
+
+      toast.success("Discount cleared successfully");
+
+      // تصفير الحالات المحلية
+      setdiscountMount("");
+      setDiscoutTime("");
+      setchangePrice("");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error clearing discount");
+    }
+  };
 
   const updatePost = async (e) => {
     e.preventDefault();
@@ -118,10 +116,25 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
         priceToSave = +(basePrice - (basePrice * discount) / 100).toFixed(2);
         // نحفظ السعر الأصلي + نسبة الخصم
         oldPriceForPayload = [Number(post?.price ?? basePrice), discount];
+        if (discoutTime == "oneday") {
+          dispatch(AdFor24HoursApi(post));
+        }
       } else if (priceChangedByUser) {
         priceToSave = basePrice;
         oldPriceForPayload = [];
       }
+
+      // if (hasValidDiscount) {
+      //   priceToSave = +(basePrice - (basePrice * discount) / 100).toFixed(2);
+      //   oldPriceForPayload = [basePrice, discount];
+
+      //   if (discoutTime === "oneday") {
+      //     dispatch(AdFor24HoursApi(post));
+      //   }
+      // } else if (priceChangedByUser) {
+      //   priceToSave = basePrice;
+      //   oldPriceForPayload = []; // مسح أي خصم سابق
+      // }
 
       // جهّز البايلود — فقط الحقول اللي تغيّرت
       const payload = {};
@@ -160,6 +173,7 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
   useEffect(() => {
     dispatch(fetchSinglePost(id));
   }, [id]);
+  console.log(changePrice);
   return (
     <Main>
       <div
@@ -211,17 +225,59 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
                   placeholder="description"
                   rows="5"
                 ></textarea>
+                {post?.oldPrice?.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-danger rounded-pill"
+                    onClick={() => clearDiscountHandler(post?._id)}
+                  >
+                    Clear Discount
+                  </button>
+                )}
+                {post?.oldPrice?.length > 0 && (
+                  <p className="text-danger">
+                    Current discount: {post.oldPrice[1]}%
+                  </p>
+                )}
+
                 <h5>create discount for the product</h5>
                 <select
                   className="input"
                   onChange={(e) => setdiscountMount(e.target.value)}
                   value={dicountMount}
-                  disabled={changePrice}
+                  disabled={post?.oldPrice?.length > 0 || changePrice}
                 >
                   {discountAmount.map((item) => (
                     <option value={item}>{item} %</option>
                   ))}
                 </select>
+                {dicountMount && (
+                  <>
+                    <h5 className="text-danger">this discount for :</h5>
+                    <div className="d-flex align-items-center mb-2">
+                      <div className="d-flex align-items-center me-3">
+                        <input
+                          onChange={(e) => setDiscoutTime("oneday")}
+                          type="radio"
+                          name="plan"
+                          id="oneday"
+                          className="me-2"
+                        />
+                        <label htmlFor="oneday">one day</label>
+                      </div>
+                      <div className="d-flex align-items-center">
+                        <input
+                          onChange={(e) => setDiscoutTime("permanently")}
+                          type="radio"
+                          name="plan"
+                          id="permanently"
+                          className="me-2"
+                        />
+                        <label htmlFor="permanently">permanently</label>
+                      </div>
+                    </div>
+                  </>
+                )}
                 <h5>or change the price</h5>
                 <input
                   type="number"

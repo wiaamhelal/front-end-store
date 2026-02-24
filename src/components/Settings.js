@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { json, Link } from "react-router-dom";
+import { json, Link, Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import swal from "sweetalert";
 import moment from "moment";
@@ -20,6 +20,7 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
   const { profile } = useSelector((state) => state.profile);
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navicate = useNavigate();
   const [username, setusername] = useState(profile?.username);
   const [bio, setbio] = useState(profile?.bio);
   // const [email, setemail] = useState(profile?.email);
@@ -217,7 +218,7 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
             value={username}
           />
           <label
-            class="text-secondary mb-1 d-block mt-3"
+            class="text-secondary mb-1 d-block mt-2"
             for="two"
             style={{ fontSize: "14px" }}
           >
@@ -233,7 +234,7 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
             value={bio}
           ></input>
           <label
-            class="text-secondary mb-1 d-block mt-3"
+            class="text-secondary mb-1 d-block mt-2"
             for="three"
             style={{ fontSize: "14px" }}
           >
@@ -256,6 +257,19 @@ const Settings = ({ toggleTheme, isDarkMode }) => {
               className="submit-info ms-2 text-danger"
               onClick={deleteAcount}
             />
+          </div>
+          <div className="d-flex align-itmes-center justify-content-between mt-3">
+            <span className="">Location</span>
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => navicate("/location")}
+            >
+              {" "}
+              {profile?.location
+                ? profile?.location?.city + ", " + profile?.location?.arya
+                : "Delever To"}
+            </span>
           </div>
         </Box>
         <Box>

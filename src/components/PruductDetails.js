@@ -108,7 +108,7 @@ const ParamsComp = () => {
   const otherColorProduct = maxPosts.filter(
     (item) => item?.title == post?.title
   );
-
+  console.log(post);
   return (
     <Holder>
       <div className="">
