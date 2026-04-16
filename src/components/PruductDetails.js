@@ -305,7 +305,7 @@ const ParamsComp = () => {
                   />
                 )}
 
-                {post?.oldPrice && (
+                {post?.oldPrice?.length === 2 && (
                   <div className="">
                     <h5 className="text-decoration-line-through text-muted me-2">
                       {FormatCurrency(post?.oldPrice[0])}

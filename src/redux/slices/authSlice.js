@@ -5,6 +5,7 @@ const authSlice = createSlice({
     // user: localStorage.getItem("userInfo")
     //   ? JSON.parse(localStorage.getItem("userInfo"))
     //   : null,
+
     user: {
       email: "wiaamhilal3@gmail.com",
       isAccountVerified: true,
@@ -14,9 +15,9 @@ const authSlice = createSlice({
         publicId: "uz4fi2lh2dvpgi3wqmgk",
       },
       token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZmY5MzJkODk2MjczY2UxOWYyMjcxZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTc0NTQ5MTU4NX0.hFyA08nglUKRG5GCnHSjEQpjlw625GBE3i5Zk98MOq4",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZTBiYjJlZmM4YjRjMDA0ZDZiY2Q3YyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTc3NjM0NzU5OX0.B3rU1FbHb_nq_Vvc0YmU8lRNiwI_IaYqSYLivPiYBdk",
       username: "Test",
-      _id: "67ff932d896273ce19f2271d",
+      _id: "69e0bb2efc8b4c004d6bcd7c",
     },
 
     registerMessage: "",

@@ -46,7 +46,7 @@ const Home = () => {
     dispatch(getAllProuctsAdsApi());
     dispatch(fetchMaxPosts());
   }, []);
-
+  console.log(postsAd);
   return (
     <Main className="text-dark">
       <SecondHeder className="ps-2 d-none d-sm-block">
@@ -298,6 +298,32 @@ const Home = () => {
           </div>
         </div>
       </SerculItems>
+      <div
+        style={{ overflowX: "auto", height: "268px" }}
+        className="my-container mt-4 mb-4"
+      >
+        <div className="category row">
+          {productad
+            ?.slice()
+            .reverse()
+            ?.map((item, index) => (
+              <Link
+                key={index}
+                className="child-cate col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                to={`/products/main/${item?.category}`}
+              >
+                <div class="card" style={{ width: "18rem" }}>
+                  <img src={item.url} class="card-img-top" alt="..." />
+                  <div class="card-body">
+                    <h4 class="card-text">
+                      discount up to {item?.range} % on {item?.category}
+                    </h4>
+                  </div>
+                </div>
+              </Link>
+            ))}
+        </div>
+      </div>
       <Premium className="my-container mt-4">
         <h4 className="fw-bold  pt-3">New Products</h4>
         <div style={{ overflowX: "auto" }}>

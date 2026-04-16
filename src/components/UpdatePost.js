@@ -4,12 +4,15 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import {
   AdFor24HoursApi,
+  createAdProductApi,
+  deleteProductAd24Api,
   deleteProductAdApi,
   fetchSinglePost,
   getAllProuctsAdsApi,
   updatePostText,
 } from "../redux/apiCalls/postApiCall";
 import DiscountProductAd24Hours from "./DiscountProductAd24Hours";
+import { createadApi } from "../redux/apiCalls/categoryApiCall";
 
 const UpdatePost = ({ toggle, settoggle, id }) => {
   const dispatch = useDispatch();
@@ -24,7 +27,7 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
   const [discoutTime, setDiscoutTime] = useState("");
   const [changePrice, setchangePrice] = useState();
 
-  const { postsAd } = useSelector((state) => state.post);
+  const { postsAd, adsFor24Hours } = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(getAllProuctsAdsApi());
   }, []);
@@ -36,6 +39,11 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
   const clearDiscountHandler = async (productId) => {
     const myAd = postsAd.filter((item) => item?.order?._id === productId);
     const adId = myAd[0]?._id;
+
+    const myAd24 = adsFor24Hours.filter(
+      (item) => item?.order?._id === productId
+    );
+    const adId24 = myAd24[0]?._id;
     try {
       if (!post?.oldPrice || post.oldPrice.length === 0) {
         toast.info("No discount to clear");
@@ -51,7 +59,15 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
 
       await dispatch(updatePostText(payload, post._id));
       await dispatch(fetchSinglePost(post._id));
-      await dispatch(deleteProductAdApi(adId));
+      // if (discoutTime == "oneday") {
+      //   dispatch(deleteProductAd24Api(adId));
+      // }
+      if (adId) {
+        await dispatch(deleteProductAdApi(adId));
+      }
+      if (adId24) {
+        await dispatch(deleteProductAd24Api(adId24));
+      }
 
       toast.success("Discount cleared successfully");
 
@@ -116,9 +132,6 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
         priceToSave = +(basePrice - (basePrice * discount) / 100).toFixed(2);
         // نحفظ السعر الأصلي + نسبة الخصم
         oldPriceForPayload = [Number(post?.price ?? basePrice), discount];
-        if (discoutTime == "oneday") {
-          dispatch(AdFor24HoursApi(post));
-        }
       } else if (priceChangedByUser) {
         priceToSave = basePrice;
         oldPriceForPayload = [];
@@ -159,6 +172,20 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
       // نفّذ التحديث
       await dispatch(updatePostText(payload, post._id));
       toast.success("Product has been updated");
+
+      if (!discoutTime) {
+        return toast.error("you must chose the discount time");
+      }
+      if (discoutTime == "oneday") {
+        dispatch(AdFor24HoursApi(post));
+
+        setTimeout(() => {
+          clearDiscountHandler(post._id);
+        }, 86400000);
+      }
+      if (discoutTime == "permanently") {
+        dispatch(createAdProductApi(post));
+      }
 
       // بدلاً من عمل window.location.reload() ننفّذ fetch للبوست المحدث أو نحدّث الستور
       await dispatch(fetchSinglePost(post._id)); // إن كان متوفر عندك ليعيد جلب البوست
@@ -262,6 +289,7 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
                           name="plan"
                           id="oneday"
                           className="me-2"
+                          disabled={discoutTime}
                         />
                         <label htmlFor="oneday">one day</label>
                       </div>
@@ -272,6 +300,7 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
                           name="plan"
                           id="permanently"
                           className="me-2"
+                          disabled={discoutTime}
                         />
                         <label htmlFor="permanently">permanently</label>
                       </div>
@@ -302,6 +331,7 @@ const UpdatePost = ({ toggle, settoggle, id }) => {
                 type="button"
                 className="btn btn-success rounded-pill"
                 onClick={updatePost}
+                // disabled={!discoutTime}
               >
                 Update Post
               </button>

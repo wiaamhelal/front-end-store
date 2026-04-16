@@ -119,6 +119,11 @@ const postSlice = createSlice({
     deletePostad(state, action) {
       state.postsAd = state.postsAd.filter((c) => c._id !== action.payload);
     },
+    deletePostad24(state, action) {
+      state.adsFor24Hours = state.adsFor24Hours.filter(
+        (c) => c._id !== action.payload
+      );
+    },
     setTotalPrice(state, action) {
       state.totalPrice = action.payload;
     },

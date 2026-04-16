@@ -388,6 +388,26 @@ export function deleteProductAdApi(adId) {
   };
 }
 
+// delete ad
+export function deleteProductAd24Api(adId) {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await request.delete(
+        `/api/posts/ad-for-24hours/${adId}`,
+        {
+          headers: {
+            Authorization: "Bearer " + getState().auth.user.token,
+          },
+        }
+      );
+      dispatch(postActions.deletePostad24(data.adId));
+      toast.success("ad has been deleted");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+}
+
 // create ad api (24 hours)
 export function AdFor24HoursApi(newad) {
   return async (dispatch, getState) => {

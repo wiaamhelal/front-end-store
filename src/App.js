@@ -1,6 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
-import { Route, Routes, Navigate, json } from "react-router-dom";
+import { Route, Routes, Navigate, json, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import PostPage from "./components/PostPage";
@@ -78,6 +78,7 @@ export const GetBasketTotal = (basket) => {
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const navcate = useNavigate();
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
     localStorage.setItem("theme", JSON.stringify(!isDarkMode));
@@ -94,10 +95,16 @@ function App() {
       myLoadingApp = false;
     }
   }, [loadingApp, myLoadingApp]);
-
+  useEffect(() => {
+    if (!user) {
+      navcate("/login");
+    }
+  }, []);
+  console.log(user);
   return (
     // <ThemeProvider >
     //   <AppWrapper>
+
     <Holder
       className="App"
       theme={
@@ -127,7 +134,7 @@ function App() {
           </div>
         </div>
       )}
-      {/* {!user && <Navigate to="/login" />} */}
+      {/* {user && <Navigate to="/login" />} */}
       <ToastContainer
         theme="colored"
         position="top-left"
@@ -238,11 +245,19 @@ function App() {
             </>
           }
         />
-        <Route
+        {/* <Route
           path="/login"
           element={
             <>
               <Header /> {!user ? <Login /> : <Navigate to="/" />}
+            </>
+          }
+        /> */}
+        <Route
+          path="/login"
+          element={
+            <>
+              <Header /> {<Login />}
             </>
           }
         />
@@ -533,6 +548,7 @@ function App() {
         />
       </Routes>
     </Holder>
+
     //   </AppWrapper>
     // </ThemeProvider>
   );

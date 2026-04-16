@@ -260,8 +260,8 @@ const MainDashboard = () => {
             />
           </div>
           <Link
-            // to="/create-discount-ad"
-            onClick={() => setadToggle(true)}
+            to="/create-discount-ad"
+            // onClick={() => navicate("/create-discount-ad")}
             className="btn btn-success btn-sm w-100 fw-bold"
           >
             create discount ad
@@ -397,7 +397,7 @@ const MainDashboard = () => {
         </div>
       </UbdatePassword>
 
-      <UbdatePassword>
+      {/* <UbdatePassword>
         <div
           className="modal align-items-center justify-content-center"
           tabindex="-1"
@@ -451,7 +451,7 @@ const MainDashboard = () => {
             </div>
           </div>
         </div>
-      </UbdatePassword>
+      </UbdatePassword> */}
       <UbdatePassword>
         <div
           className="modal align-items-center justify-content-center"
